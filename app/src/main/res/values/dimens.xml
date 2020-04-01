@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="mainSizeTask">168sp</dimen>
+    <dimen name="mainMarginTaskLeft">5dp</dimen>
+    <dimen name="mainMarginTaskTop">15dp</dimen>
+    <dimen name="mainTaskTextSize">28sp</dimen>
+    <dimen name="mainPaddingBottomContentLL">35dp</dimen>
+
+</resources>

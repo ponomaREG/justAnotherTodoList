@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5E5E5E</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#9A9A9A</color>
+    <color name="colorMainBackground">#CFCFCF</color>
+
+    <color name="colorLightGray">#9A9A9A</color>
+    <color name="colorDarkGray">#5E5E5E</color>
+    <color name="colorFullBlack">#000000</color>
+
+    <color name="mainSolidTask">#FFFFFF</color>
+
+</resources>

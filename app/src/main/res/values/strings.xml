@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">taskCurrent</string>
+
+    <string name="mainLLContentDescription">TODO://IMAGE ICON</string>
+
+
+    <string name="toastError">Вы уже запланировали на этот день(</string>
+
+
+    <!--DATABASE BLOCK-->
+    <string name="databaseColumnId">id</string>
+    <string name="databaseColumnIdDay">id_day</string>
+    <string name="databaseColumnDate">date</string>
+    <string name="databaseTableDays">days</string>
+    <string name="databaseTableTasks">tasks</string>
+    <string name="databaseQueryGetAllDataFromTable">select * from %s;</string>
+    <string name="databaseQueryGetDataFromTableWhereEquals">select * from %s where %s = %s;</string>
+    <string name="databaseQueryInsertDataInTable">insert into %s (%s) values (%s);</string>
+    <!--DATABASE BLOCK END-->
+
+</resources>
