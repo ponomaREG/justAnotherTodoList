@@ -1,11 +1,14 @@
 package com.test.taskcurrent.helpers;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import com.test.taskcurrent.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -123,4 +126,18 @@ public class DBHelper extends SQLiteOpenHelper {
 //    }
 
 
+    public int getIDFromTable(String query,String table, String condition, String equal, String column){
+        Cursor c = this.getReadableDatabase().rawQuery(
+           String.format(
+                   query,
+                   table,
+                   condition,
+                   equal
+           ) ,null
+        );
+        c.moveToFirst();
+        int id = c.getColumnIndex(column);
+        c.close();
+        return id;
+    }
 }

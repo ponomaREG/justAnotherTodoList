@@ -9,6 +9,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -22,22 +26,23 @@ import com.test.taskcurrent.helpers.DBHelper;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class mainTasks extends AppCompatActivity {
 
     private DBHelper dbhelper;
+    private ActionMode mActionMode;
+    private ArrayList<View> list_of_checked_cells;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_tasks);
-
         init();
         checkDatabaseAndIfDoesntExistThenUpload();
-        showDaysToUserAndInitOclToThem();
-
+        showDaysToUserAndSetOclToThem();
     }
 
     private void init(){
@@ -46,6 +51,7 @@ public class mainTasks extends AppCompatActivity {
     }
 
     private void initVariables(){
+        list_of_checked_cells = new ArrayList<>();
         dbhelper = new DBHelper(this);
     }
 
@@ -62,11 +68,13 @@ public class mainTasks extends AppCompatActivity {
         }
     }
 
-    private void showDaysToUserAndInitOclToThem(){
+    private void showDaysToUserAndSetOclToThem(){
+        Log.d("SHOW","1");
         LinearLayout taskLL = findViewById(R.id.tasksLL);
         LinearLayout baseLL;
         TextView baseTextView;
         View.OnClickListener ocl = getOclForCellDays();
+        View.OnLongClickListener long_ocl = getLongOclForCellDays();
         Cursor c = getDaysFromDB();
 
         searching:
@@ -90,7 +98,9 @@ public class mainTasks extends AppCompatActivity {
                 baseTextView.setLayoutParams(lp);
                 baseTextView.setText(c.getString(c.getColumnIndex(getResources().getString(R.string.databaseColumnDate))));
                 baseTextView.setTag(c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnId))));
+
                 baseTextView.setOnClickListener(ocl);
+                baseTextView.setOnLongClickListener(long_ocl);
                 baseLL.addView(baseTextView);
                 if(c.isLast()) {
                     taskLL.addView(baseLL);
@@ -106,7 +116,49 @@ public class mainTasks extends AppCompatActivity {
     private View.OnClickListener getOclForCellDays(){
         return v->{
             int idDays = (int) v.getTag();
+//
+//            if (v.isSelected()) v.setSelected(false);
+//            else v.setSelected(true);
+
             Log.d("DAYS",idDays+" ");
+            Log.d("SELECTED",v.isSelected()+" ");
+        };
+    }
+
+    private View.OnLongClickListener getLongOclForCellDays(){
+        return v -> {
+//            if(mActionMode != null){
+//                return false;
+//            }
+            mActionMode = this.startActionMode(getActionMode());
+            setAnotherOCLToDaysCellsWhenActionModeLaunch();
+            v.setSelected(true);
+            list_of_checked_cells.add(v);
+            return true;
+        };
+    }
+
+    private void setAnotherOCLToDaysCellsWhenActionModeLaunch(){
+        View.OnClickListener ocl = getOclForDaysCellWhenActionModeLaunch();
+        LinearLayout taskLY = findViewById(R.id.tasksLL);
+        for(int i = 0 ;i<taskLY.getChildCount();i++){
+            LinearLayout baseLL = (LinearLayout) taskLY.getChildAt(i);
+            for(int j = 0;j<baseLL.getChildCount();j++){
+                baseLL.getChildAt(j).setOnClickListener(ocl);
+            }
+        }
+    }
+
+    private View.OnClickListener getOclForDaysCellWhenActionModeLaunch(){
+        return v->{
+            if(v.isSelected()) {
+                v.setSelected(false);
+                list_of_checked_cells.remove(v);
+            }
+            else {
+                v.setSelected(true);
+                list_of_checked_cells.add(v);
+            }
         };
     }
 
@@ -115,7 +167,7 @@ public class mainTasks extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year,month,dayOfMonth);
             addIntoDatabaseNewDate(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
-            recreate();
+            updateTaskLL();
         }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -134,6 +186,15 @@ public class mainTasks extends AppCompatActivity {
         }
     }
 
+    private void updateTaskLL(){
+        clearAllViewsinTaskLL();
+        showDaysToUserAndSetOclToThem();
+    }
+
+    private void clearAllViewsinTaskLL(){
+        LinearLayout taskLL = findViewById(R.id.tasksLL);
+        if(taskLL.getChildCount()>0) taskLL.removeAllViews();
+    }
 
 
 
@@ -161,6 +222,46 @@ public class mainTasks extends AppCompatActivity {
         );
     }
 
+    private ActionMode.Callback getActionMode() {
+         return  new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater mi = mode.getMenuInflater();
+                mi.inflate(R.menu.menu_action_mode, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.buttonDelete:
+                        Log.d("PRESSED DELETE", "1");
+                        for(View v:list_of_checked_cells) deleteDayLineInDatabase((int) v.getTag());
+                        mode.finish();
+                        break;
+
+                }
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                Log.d("DESTROYED","1");
+                mActionMode = null;
+                updateTaskLL();
+            }
+        };
+    }
+
+    private void deleteDayLineInDatabase(int id){
+        Log.d("ID",id+"");
+        dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableDays),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
+    }
 
 
 

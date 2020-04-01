@@ -16,6 +16,10 @@
     <string name="databaseQueryGetAllDataFromTable">select * from %s;</string>
     <string name="databaseQueryGetDataFromTableWhereEquals">select * from %s where %s = %s;</string>
     <string name="databaseQueryInsertDataInTable">insert into %s (%s) values (%s);</string>
+    <string name="database_condition_delete">id = %s</string>
     <!--DATABASE BLOCK END-->
+
+    <string name="menuDelete">Удалить</string>
+    <string name="menuSetDone">Отметить как выполненное</string>
 
 </resources>
