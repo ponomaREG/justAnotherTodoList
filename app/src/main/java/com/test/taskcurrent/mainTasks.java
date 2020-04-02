@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -20,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.test.taskcurrent.helpers.AnotherHelpers;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 
@@ -29,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class mainTasks extends AppCompatActivity {
 
@@ -40,6 +46,8 @@ public class mainTasks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_tasks);
+
+        hideTittleOfActionBar();
         init();
         checkDatabaseAndIfDoesntExistThenUpload();
         showDaysToUserAndSetOclToThem();
@@ -53,6 +61,10 @@ public class mainTasks extends AppCompatActivity {
     private void initVariables(){
         list_of_checked_cells = new ArrayList<>();
         dbhelper = new DBHelper(this);
+    }
+
+    private void hideTittleOfActionBar(){
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     }
 
     private void initOclForButtonAdd(){
@@ -116,12 +128,7 @@ public class mainTasks extends AppCompatActivity {
     private View.OnClickListener getOclForCellDays(){
         return v->{
             int idDays = (int) v.getTag();
-//
-//            if (v.isSelected()) v.setSelected(false);
-//            else v.setSelected(true);
-
-            Log.d("DAYS",idDays+" ");
-            Log.d("SELECTED",v.isSelected()+" ");
+            startActivity(new Intent(mainTasks.this,taskOfCurrentDay.class).putExtra(getResources().getString(R.string.intentExtraId),idDays));
         };
     }
 
@@ -130,13 +137,18 @@ public class mainTasks extends AppCompatActivity {
 //            if(mActionMode != null){
 //                return false;
 //            }
-            mActionMode = this.startActionMode(getActionMode());
-            setAnotherOCLToDaysCellsWhenActionModeLaunch();
-            v.setSelected(true);
-            list_of_checked_cells.add(v);
-            return true;
+            if(mActionMode == null) {
+                AnotherHelpers.vibrateWhenClickIsLong(this);
+                mActionMode = this.startActionMode(getActionMode());
+                setAnotherOCLToDaysCellsWhenActionModeLaunch();
+                v.setSelected(true);
+                list_of_checked_cells.add(v);
+                return true;
+            }
+            return false;
         };
     }
+
 
     private void setAnotherOCLToDaysCellsWhenActionModeLaunch(){
         View.OnClickListener ocl = getOclForDaysCellWhenActionModeLaunch();
@@ -154,6 +166,7 @@ public class mainTasks extends AppCompatActivity {
             if(v.isSelected()) {
                 v.setSelected(false);
                 list_of_checked_cells.remove(v);
+                if(list_of_checked_cells.size() == 0) mActionMode.finish();
             }
             else {
                 v.setSelected(true);
@@ -210,17 +223,6 @@ public class mainTasks extends AppCompatActivity {
         return c;
     }
 
-    private Cursor getTasksByID(int id){
-        return dbhelper.getReadableDatabase().rawQuery(
-          String.format(
-                  getResources().getString(R.string.databaseQueryGetDataFromTableWhereEquals),
-                  getResources().getString(R.string.databaseTableTasks),
-                  getResources().getString(R.string.databaseColumnIdDay),
-                  String.valueOf(id)
-          ),
-          null
-        );
-    }
 
     private ActionMode.Callback getActionMode() {
          return  new ActionMode.Callback() {
@@ -253,6 +255,7 @@ public class mainTasks extends AppCompatActivity {
             public void onDestroyActionMode(ActionMode mode) {
                 Log.d("DESTROYED","1");
                 mActionMode = null;
+                list_of_checked_cells.clear();
                 updateTaskLL();
             }
         };

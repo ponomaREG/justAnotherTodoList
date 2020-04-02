@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/task"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:gravity="center_vertical"
+    android:background="@drawable/main_task_selector"
+    android:paddingStart="@dimen/viewTaskInRvPaddingSide"
+    android:paddingEnd="@dimen/viewTaskInRvPaddingSide"
+    android:layout_marginTop="@dimen/viewTaskInRvMarginTop"
+    android:layout_marginEnd="@dimen/viewTaskInRvMarginSide"
+    android:layout_marginStart="@dimen/viewTaskInRvMarginSide"
+    android:minHeight="?android:attr/listPreferredItemHeight">
+</TextView>

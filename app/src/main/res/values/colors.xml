@@ -8,7 +8,9 @@
     <color name="colorLightGray">#9A9A9A</color>
     <color name="colorDarkGray">#5E5E5E</color>
     <color name="colorFullBlack">#000000</color>
+    <color name="colorFullWhite">#FFFFFF</color>
 
     <color name="mainSolidTask">#FFFFFF</color>
+    <color name="solidTask">#FFFFFF</color>
 
 </resources>

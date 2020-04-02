@@ -140,4 +140,21 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         return id;
     }
+
+    public int getIDFromTableTwoCondition(String query,String table, String condition_1, String equal_1, String condition_2, String equal_2, String column){
+        Cursor c = this.getReadableDatabase().rawQuery(
+                String.format(
+                        query,
+                        table,
+                        condition_1,
+                        equal_1,
+                        condition_2,
+                        equal_2
+                ),null
+        );
+        c.moveToFirst();
+        int id = c.getColumnIndex(column);
+        c.close();
+        return id;
+    }
 }

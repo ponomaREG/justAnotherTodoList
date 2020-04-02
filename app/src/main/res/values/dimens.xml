@@ -6,5 +6,13 @@
     <dimen name="mainMarginTaskTop">15dp</dimen>
     <dimen name="mainTaskTextSize">28sp</dimen>
     <dimen name="mainPaddingBottomContentLL">35dp</dimen>
+    <dimen name="taskMarginTop">15dp</dimen>
+    <dimen name="viewTaskInRvMarginTop">5dp</dimen>
+    <dimen name="viewTaskInRvMarginSide">2dp</dimen>
+    <dimen name="viewTaskInRvPaddingSide">15dp</dimen>
+    <dimen name="iconAddSize">60dp</dimen>
+    <dimen name="dialogTitleTextSize">28sp</dimen>
+    <dimen name="dialogPaddingEditTextSide">15dp</dimen>
+    <dimen name="dialogPaddingEditTextTop">15dp</dimen>
 
 </resources>

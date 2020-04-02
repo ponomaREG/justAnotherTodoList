@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground"
+    android:orientation="vertical"
+    tools:context=".taskOfCurrentDay">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/taskMarginTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/mainPaddingBottomContentLL"
+            android:orientation="vertical"
+            android:id="@+id/tasksLL">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    <ImageView
+        android:id="@+id/mainButtonAddNewDay"
+        android:layout_width="@dimen/iconAddSize"
+        android:layout_height="@dimen/iconAddSize"
+        android:src="@drawable/icon_add_new_main_task"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/mainLLContentDescription" />
+
+
+
+
+
+</RelativeLayout>
