@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.taskcurrent.helpers.Converters;
@@ -38,6 +39,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     private ViewHolderRV adapter;
     private ActionMode mActionMode;
     public static boolean isActionMode = false;
+    private RecyclerView rv;
     private List<Task> checked_tasks;
 
 
@@ -66,7 +68,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     }
 
     private void initRecyclerView(){
-        RecyclerView rv = findViewById(R.id.rv);
+        rv = findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
     }
@@ -219,14 +221,17 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
     public void addInCheckedTasks(int position){
         checked_tasks.add(adapter.getDataSet().get(position));
+        Log.d("POST",position+" ");
+        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.main_task_pressed));
     }
 
     public boolean checkIfTaskAlreadyInCheckedTasks(Task t){
         return checked_tasks.contains(t);
     }
 
-    public void removeTaskFromCheckedTasks(Task t){
+    public void removeTaskFromCheckedTasks(Task t,int position){
        checked_tasks.remove(t);
+        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.main_task));
        checkedTasksForZeroSizeAndIfZeroThenFinishActionMode();
     }
 
@@ -263,11 +268,13 @@ public class taskOfCurrentDay extends AppCompatActivity {
                         break;
                     case R.id.buttonSetDone:
                         for(Task t:checked_tasks){
-                            if(!t.isDone()) {
-                                t.setDone();
-                                setDoneOrUndoneTaskByID(t.getID(), t.isDone());
-                            }
+                            if(!t.isDone()) t.setDone();
+                            else t.setUnDone();
+                            setDoneOrUndoneTaskByID(t.getID(), t.isDone());
                         }
+                        mode.finish();
+                        notifyAdapterBecauseDataSetChanged();
+                        break;
 
                 }
                 return false;
@@ -279,6 +286,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
                 mActionMode = null;
                 isActionMode = false;
                 checked_tasks.clear();
+                adapter.setVisibilityOfIcon(true);
                 adapter.notifyDataSetChanged();
             }
         };

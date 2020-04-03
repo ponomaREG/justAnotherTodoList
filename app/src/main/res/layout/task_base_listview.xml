@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/line_textview_ll"
     android:background="@drawable/main_task_selector"
+    android:layout_marginTop="@dimen/viewTaskInRvMarginTop"
+    android:layout_marginEnd="@dimen/viewTaskInRvMarginSide"
+    android:layout_marginStart="@dimen/viewTaskInRvMarginSide"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 <TextView
     android:id="@+id/task"
-    android:layout_width="match_parent"
+    android:layout_weight="1"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:gravity="center_vertical"
-    android:paddingStart="@dimen/viewTaskInRvPaddingSide"
-    android:paddingEnd="@dimen/viewTaskInRvPaddingSide"
-    android:layout_marginTop="@dimen/viewTaskInRvMarginTop"
-    android:layout_marginEnd="@dimen/viewTaskInRvMarginSide"
-    android:layout_marginStart="@dimen/viewTaskInRvMarginSide"
+    android:padding="@dimen/viewTaskInRvPaddingSide"
     android:minHeight="?android:attr/listPreferredItemHeight">
 </TextView>
-    <ImageView
+
+    <LinearLayout
+        android:id="@+id/line_llIcon"
+        android:background="@drawable/task_icon_ll_style"
+        android:padding="@dimen/taskIconPadding"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/"
+        android:layout_height="match_parent">
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_width="@dimen/taskIconSize"
+        android:layout_height="@dimen/taskIconSize"
+        android:id="@+id/line_IconSetDoneOrUndone" />
+    </LinearLayout>
 </LinearLayout>
