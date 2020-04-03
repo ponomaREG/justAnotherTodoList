@@ -13,10 +13,12 @@
     <string name="databaseColumnDate">date</string>
     <string name="databaseColumnTask">task</string>
     <string name="databaseColumnIsDone">is_done</string>
+    <string name="databaseColumnIsStar">is_star</string>
     <string name="databaseTableDays">days</string>
     <string name="databaseTableTasks">tasks</string>
     <string name="databaseQueryGetAllDataFromTable">select * from %s;</string>
     <string name="databaseQueryGetDataFromTableWhereEquals">select * from %s where %s = %s;</string>
+    <string name="databaseQueryGetDataFromTableWhereEqualsWithOrderByDesc">select * from %s where %s = %s order by %s desc;</string>
     <string name="databaseQueryGetDataFromTableWhereEqualsTwoCondition">select * from %s where %s = %s and %s = %s;</string>
     <string name="databaseQueryInsertDataInTable">insert into %s (%s) values (%s);</string>
     <string name="database_condition_delete">id = %s</string>

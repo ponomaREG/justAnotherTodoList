@@ -3,15 +3,15 @@
     <color name="colorPrimary">#5E5E5E</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#9A9A9A</color>
-    <color name="colorMainBackground">#CFCFCF</color>
+    <color name="colorMainBackground">#4E4C4C</color>
 
     <color name="colorLightGray">#9A9A9A</color>
-    <color name="colorDarkGray">#5E5E5E</color>
+    <color name="colorDarkGray">#878787</color>
     <color name="colorFullBlack">#000000</color>
     <color name="colorFullWhite">#FFFFFF</color>
 
     <color name="mainSolidTask">#FFFFFF</color>
     <color name="solidTask">#FFFFFF</color>
-    <color name="colorDarkGreen">#185122</color>
+    <color name="colorDarkGreen">#006712</color>
 
 </resources>

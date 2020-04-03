@@ -8,7 +8,9 @@
     <dimen name="mainPaddingBottomContentLL">35dp</dimen>
     <dimen name="taskMarginTop">15dp</dimen>
     <dimen name="taskIconPadding">4dp</dimen>
-    <dimen name="taskIconSize">50dp</dimen>
+    <dimen name="taskIconSize">40dp</dimen>
+    <dimen name="taskStarSize">23dp</dimen>
+    <dimen name="taskStarPadding">10dp</dimen>
     <dimen name="viewTaskInRvMarginTop">5dp</dimen>
     <dimen name="viewTaskInRvMarginSide">2dp</dimen>
     <dimen name="viewTaskInRvPaddingSide">15dp</dimen>

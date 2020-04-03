@@ -93,7 +93,8 @@ public class taskOfCurrentDay extends AppCompatActivity {
             tasks.add(new Task(
                     c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnId))),
                     c.getString(c.getColumnIndex(getResources().getString(R.string.databaseColumnTask))),
-                    c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnIsDone))) == 1
+                    c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnIsDone))) == 1,
+                    c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnIsStar))) == 1
             ));
             c.moveToNext();
         }
@@ -105,10 +106,11 @@ public class taskOfCurrentDay extends AppCompatActivity {
     private Cursor getTasksByID(int id){
         return dbhelper.getReadableDatabase().rawQuery(
                 String.format(
-                        getResources().getString(R.string.databaseQueryGetDataFromTableWhereEquals),
+                        getResources().getString(R.string.databaseQueryGetDataFromTableWhereEqualsWithOrderByDesc),
                         getResources().getString(R.string.databaseTableTasks),
                         getResources().getString(R.string.databaseColumnIdDay),
-                        String.valueOf(id)
+                        String.valueOf(id),
+                        getResources().getString(R.string.databaseColumnIsStar)
                 ),
                 null
         );
@@ -169,6 +171,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
         adapter.getDataSet().add(new Task(
                 id_task,
                 task,
+                false,
                 false));
         notifyAdapterBecauseDataSetChanged();
     }
@@ -187,13 +190,23 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public void setDoneOrUndoneTaskByID(int id_task,boolean is_done){
         ContentValues cv = new ContentValues();
         cv.put(getResources().getString(R.string.databaseColumnIsDone),((is_done) ? 1:0));
-        int updcount = dbhelper.getWritableDatabase().
+        dbhelper.getWritableDatabase().
                 update(getResources().getString(R.string.databaseTableTasks),
                         cv,
                         String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id_task)),
                         null
                         );
-        Log.d("UPDC",updcount+" ");
+    }
+
+    public void setStarOrUnstarTaskByID(int id_task,boolean is_star){
+        ContentValues cv = new ContentValues();
+        cv.put(getResources().getString(R.string.databaseColumnIsStar),((is_star) ? 1:0));
+        dbhelper.getWritableDatabase().
+                update(getResources().getString(R.string.databaseTableTasks),
+                        cv,
+                        String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id_task)),
+                        null
+                );
     }
 
     private void notifyAdapterBecauseDataSetChanged(){

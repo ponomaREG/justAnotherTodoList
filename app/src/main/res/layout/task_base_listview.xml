@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/task"
     android:id="@+id/line_parentLL"
     android:layout_marginTop="@dimen/viewTaskInRvMarginTop"
@@ -7,6 +8,21 @@
     android:layout_marginStart="@dimen/viewTaskInRvMarginSide"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/line_llStar"
+        android:layout_gravity="center"
+        android:paddingStart="@dimen/taskStarPadding"
+        android:paddingEnd="@dimen/taskStarPadding"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        tools:ignore="RtlSymmetry">
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="@dimen/taskStarSize"
+            android:layout_height="@dimen/taskStarSize"
+            android:src="@drawable/star_selected"
+            android:id="@+id/line_star" />
+    </LinearLayout>
     <LinearLayout
         android:layout_weight="1"
         android:background="@drawable/task_selector"
