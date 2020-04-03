@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/line_textview_ll"
-    android:background="@drawable/main_task_selector"
+    android:background="@drawable/task"
+    android:id="@+id/line_parentLL"
     android:layout_marginTop="@dimen/viewTaskInRvMarginTop"
     android:layout_marginEnd="@dimen/viewTaskInRvMarginSide"
     android:layout_marginStart="@dimen/viewTaskInRvMarginSide"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_weight="1"
+        android:background="@drawable/task_selector"
+        android:id="@+id/line_textview_ll"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
 <TextView
     android:id="@+id/task"
-    android:layout_weight="1"
-    android:layout_width="0dp"
+
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:gravity="center_vertical"
     android:padding="@dimen/viewTaskInRvPaddingSide"
     android:minHeight="?android:attr/listPreferredItemHeight">
 </TextView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/line_llIcon"

@@ -2,7 +2,7 @@ package com.test.taskcurrent.helpers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +41,23 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderRV.ViewHolder holder, int position) {
+        if(getDataSet().get(position).isDone()){
+            holder.task.setPaintFlags(holder.task.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_done_style));
+        }else {
+            holder.task.setPaintFlags(holder.task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_selector));
+        }
         holder.task.setText(this.tasks.get(position).getTask());
-        holder.icon.setImageDrawable((this.tasks.get(position).isDone()) ? activity.getResources().getDrawable(R.drawable.line_rv_set_undone):activity.getResources().getDrawable(R.drawable.line_rv_set_done));
+        setCorrectImageToIcon(holder.icon,position);
+        setOclToImageIcon(holder,position);
         holder.itemView.setSelected(false);
         if(!this.isIconVisible) {
-            holder.iconLL.setVisibility(View.INVISIBLE);
-        }else holder.iconLL.setVisibility(View.VISIBLE);
+            holder.iconLL.setVisibility(View.GONE);
+        }else {
+            holder.iconLL.setVisibility(View.VISIBLE);
+            holder.itemView.findViewById(R.id.line_parentLL).setBackground(activity.getResources().getDrawable(R.drawable.task));
+        }
     }
 
     public void setVisibilityOfIcon(boolean isIconVisible){
@@ -61,30 +72,41 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
     }
 
 
+    private void setCorrectImageToIcon(ImageView icon_view, int position){
+        icon_view.setImageDrawable((this.tasks.get(position).isDone()) ? activity.getResources().getDrawable(R.drawable.line_rv_set_undone):activity.getResources().getDrawable(R.drawable.line_rv_set_done));
+    }
+
+    private void setOclToImageIcon(ViewHolderRV.ViewHolder holder,int position){
+        holder.icon.setOnClickListener(v -> {
+            Task t = getDataSet().get(position);
+            if(t.isDone()) t.setUnDone();
+            else t.setDone();
+            ((taskOfCurrentDay) activity).setDoneOrUndoneTaskByID(t.getID(),t.isDone());
+            this.notifyDataSetChanged();
+        });
+    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener, View.OnLongClickListener{
         TextView task;
         ImageView icon;
-        LinearLayout iconLL;
+        LinearLayout iconLL, textViewLL;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             task = itemView.findViewById(R.id.task);
             iconLL = itemView.findViewById(R.id.line_llIcon);
             icon = itemView.findViewById(R.id.line_IconSetDoneOrUndone);
+            textViewLL = itemView.findViewById(R.id.line_textview_ll);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            itemView.setSelected(false);
-            icon.setOnClickListener(v -> {
-                Log.d("IMAGE","!");
-            });
         }
 
         @Override
         public void onClick(View v) {
-            if(taskOfCurrentDay.isActionMode){
+            if((taskOfCurrentDay.isActionMode)){
                 if(((taskOfCurrentDay) activity).checkIfTaskAlreadyInCheckedTasks(tasks.get(getAdapterPosition()))){
-                    ((taskOfCurrentDay) activity).removeTaskFromCheckedTasks(tasks.get(getAdapterPosition()),getAdapterPosition());
+                    ((taskOfCurrentDay) activity).removeTaskFromCheckedTasks(getAdapterPosition());
 //                    v.setSelected(false);
                 }else {
 //                    v.setSelected(true);
@@ -99,10 +121,11 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
                 AnotherHelpers.vibrateWhenClickIsLong(activity);
                 taskOfCurrentDay.isActionMode = true;
                 ((taskOfCurrentDay) activity).startActionModeForTask();
-                ((taskOfCurrentDay) activity).addInCheckedTasks(getAdapterPosition());
+//                ((taskOfCurrentDay) activity).addInCheckedTasks(getAdapterPosition());
+//                int pos = getAdapterPosition();
                 setVisibilityOfIcon(false);
                 notifyDataSetChanged();
-//                v.setSelected(true);
+//                ((taskOfCurrentDay) activity).addInCheckedTasks(pos);
                 return true;
             }
             return false;

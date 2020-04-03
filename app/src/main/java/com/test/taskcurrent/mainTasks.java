@@ -2,24 +2,19 @@ package com.test.taskcurrent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +23,10 @@ import com.test.taskcurrent.helpers.AnotherHelpers;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 public class mainTasks extends AppCompatActivity {
@@ -68,9 +61,7 @@ public class mainTasks extends AppCompatActivity {
     }
 
     private void initOclForButtonAdd(){
-        findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> {
-            addNewDay();
-        });
+        findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> addNewDay());
     }
 
 
@@ -176,7 +167,7 @@ public class mainTasks extends AppCompatActivity {
     }
 
     private void addNewDay(){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+        @SuppressLint("SimpleDateFormat") DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year,month,dayOfMonth);
             addIntoDatabaseNewDate(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
@@ -240,14 +231,8 @@ public class mainTasks extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.buttonDelete:
-                        Log.d("PRESSED DELETE", "1");
-                        for(View v:list_of_checked_cells) deleteDayLineInDatabase((int) v.getTag());
-                        mode.finish();
-                        break;
-
-                }
+                for (View v : list_of_checked_cells) deleteDayLineInDatabase((int) v.getTag());
+                mode.finish();
                 return false;
             }
 

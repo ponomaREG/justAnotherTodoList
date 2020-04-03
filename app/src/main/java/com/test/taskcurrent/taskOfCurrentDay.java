@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.taskcurrent.helpers.Converters;
@@ -75,9 +75,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
 
     private void initOclForButtonAdd(){
-        findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> {
-            addNewTask();
-        });
+        findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> addNewTask());
     }
 
     private void hideTittleOfActionBar(){
@@ -90,6 +88,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
         Cursor c = getTasksByID(id);
         c.moveToFirst();
         for(int i = 0;i<c.getCount();i++){
+            Log.d("IS DONE",String.valueOf(c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnIsDone))) == 1));
             Log.d("COUNT",i+" ");
             tasks.add(new Task(
                     c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnId))),
@@ -119,6 +118,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
         createDialogBuilder();
     }
 
+    @SuppressLint("InflateParams")
     public void createDialogBuilder(){
         AlertDialog.Builder ab = new AlertDialog.Builder(this,R.style.AlertDialog);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_edittextview,null);
@@ -130,9 +130,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
                     addIntoDatabaseNewTask(new_task.getText().toString(),id);
                     dialog.dismiss();
                 })
-                .setNegativeButton("Отмена",((dialog, which) -> {
-                    dialog.dismiss();
-                }));
+                .setNegativeButton("Отмена",((dialog, which) -> dialog.dismiss()));
         AlertDialog ad_cr = ab.create();
         ad_cr.setOnShowListener(dialog -> {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,100.0f);
@@ -151,35 +149,25 @@ public class taskOfCurrentDay extends AppCompatActivity {
         ad_cr.show();
     }
 
-    private boolean addIntoDatabaseNewTask(String task,int id_day){
+    private void addIntoDatabaseNewTask(String task, int id_day){
         ContentValues cv = new ContentValues();
         cv.put(getResources().getString(R.string.databaseColumnTask),task);
         cv.put(getResources().getString(R.string.databaseColumnIdDay),id_day);
         try {
-            dbhelper.getReadableDatabase().insertOrThrow(
+            long id_task = dbhelper.getWritableDatabase().insertOrThrow(
                     getResources().getString(R.string.databaseTableTasks),
                     null,
                     cv
                     );
+            addTaskInListOfTasksAtLast((int) id_task,task);
         }catch(SQLiteConstraintException exc){
             Toast.makeText(this,"Произошла ошибка(",Toast.LENGTH_SHORT).show();
-            return false;
         }
-        addTaskInListOfTasksAtLast(task,id_day);
-        return true;
     }
 
-    private void addTaskInListOfTasksAtLast(String task,int id_day){
+    private void addTaskInListOfTasksAtLast(int id_task,String task){
         adapter.getDataSet().add(new Task(
-                dbhelper.getIDFromTableTwoCondition(
-                        getResources().getString(R.string.databaseQueryGetDataFromTableWhereEqualsTwoCondition),
-                        getResources().getString(R.string.databaseTableTasks),
-                        getResources().getString(R.string.databaseColumnTask),
-                        "'"+task+"'",
-                        getResources().getString(R.string.databaseColumnIdDay),
-                        String.valueOf(id_day),
-                        getResources().getString(R.string.databaseColumnId)
-                ),
+                id_task,
                 task,
                 false));
         notifyAdapterBecauseDataSetChanged();
@@ -196,18 +184,16 @@ public class taskOfCurrentDay extends AppCompatActivity {
 //        notifyAdapterBecauseDataSetChanged();
 //    }
 
-    private void setDoneOrUndoneTaskByID(int id_task,boolean is_done){
+    public void setDoneOrUndoneTaskByID(int id_task,boolean is_done){
         ContentValues cv = new ContentValues();
-        int is_done_int = 0;
-        if(is_done) is_done_int = 1;
-
-        cv.put(getResources().getString(R.string.databaseColumnIsDone),is_done_int);
-        dbhelper.getReadableDatabase().
+        cv.put(getResources().getString(R.string.databaseColumnIsDone),((is_done) ? 1:0));
+        int updcount = dbhelper.getWritableDatabase().
                 update(getResources().getString(R.string.databaseTableTasks),
                         cv,
                         String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id_task)),
                         null
                         );
+        Log.d("UPDC",updcount+" ");
     }
 
     private void notifyAdapterBecauseDataSetChanged(){
@@ -222,16 +208,18 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public void addInCheckedTasks(int position){
         checked_tasks.add(adapter.getDataSet().get(position));
         Log.d("POST",position+" ");
-        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.main_task_pressed));
+        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.task_pressed));
+//        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.setSelected(true);
     }
 
     public boolean checkIfTaskAlreadyInCheckedTasks(Task t){
         return checked_tasks.contains(t);
     }
 
-    public void removeTaskFromCheckedTasks(Task t,int position){
-       checked_tasks.remove(t);
-        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.main_task));
+    public void removeTaskFromCheckedTasks(int position){
+       checked_tasks.remove(adapter.getDataSet().get(position));
+       Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.task));
+//        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.setSelected(false);
        checkedTasksForZeroSizeAndIfZeroThenFinishActionMode();
     }
 
@@ -256,27 +244,21 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.buttonDelete:
-                        Log.d("PRESSED DELETE", "1");
-                        for(Task v:checked_tasks) {
-                            adapter.getDataSet().remove(v);
-                            deleteTaskLineInDatabase(v.getID());
-                        }
-                        mode.finish();
-                        notifyAdapterBecauseDataSetChanged();
-                        break;
-                    case R.id.buttonSetDone:
-                        for(Task t:checked_tasks){
-                            if(!t.isDone()) t.setDone();
-                            else t.setUnDone();
-                            setDoneOrUndoneTaskByID(t.getID(), t.isDone());
-                        }
-                        mode.finish();
-                        notifyAdapterBecauseDataSetChanged();
-                        break;
-
-                }
+                for (Task v : checked_tasks) {
+                       adapter.getDataSet().remove(v);
+                       deleteTaskLineInDatabase(v.getID());
+                    }
+                mode.finish();
+                notifyAdapterBecauseDataSetChanged();
+                    //                    case R.id.buttonSetDone:
+//                        for(Task t:checked_tasks){
+//                            if(!t.isDone()) t.setDone();
+//                            else t.setUnDone();
+//                            setDoneOrUndoneTaskByID(t.getID(), t.isDone());
+//                        }
+//                        mode.finish();
+//                        notifyAdapterBecauseDataSetChanged();
+//                        break;
                 return false;
             }
 

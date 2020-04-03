@@ -12,5 +12,6 @@
 
     <color name="mainSolidTask">#FFFFFF</color>
     <color name="solidTask">#FFFFFF</color>
+    <color name="colorDarkGreen">#185122</color>
 
 </resources>
