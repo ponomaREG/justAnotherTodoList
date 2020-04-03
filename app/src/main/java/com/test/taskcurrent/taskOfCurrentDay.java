@@ -40,6 +40,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public static boolean isActionMode = false;
     private List<Task> checked_tasks;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,6 +194,20 @@ public class taskOfCurrentDay extends AppCompatActivity {
 //        notifyAdapterBecauseDataSetChanged();
 //    }
 
+    private void setDoneOrUndoneTaskByID(int id_task,boolean is_done){
+        ContentValues cv = new ContentValues();
+        int is_done_int = 0;
+        if(is_done) is_done_int = 1;
+
+        cv.put(getResources().getString(R.string.databaseColumnIsDone),is_done_int);
+        dbhelper.getReadableDatabase().
+                update(getResources().getString(R.string.databaseTableTasks),
+                        cv,
+                        String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id_task)),
+                        null
+                        );
+    }
+
     private void notifyAdapterBecauseDataSetChanged(){
         adapter.notifyDataSetChanged();
     }
@@ -246,6 +261,13 @@ public class taskOfCurrentDay extends AppCompatActivity {
                         mode.finish();
                         notifyAdapterBecauseDataSetChanged();
                         break;
+                    case R.id.buttonSetDone:
+                        for(Task t:checked_tasks){
+                            if(!t.isDone()) {
+                                t.setDone();
+                                setDoneOrUndoneTaskByID(t.getID(), t.isDone());
+                            }
+                        }
 
                 }
                 return false;

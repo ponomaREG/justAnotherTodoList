@@ -13,4 +13,7 @@ public class Task {
     public String getTask(){return this.task;}
     public int getID(){return this.id;}
     public boolean isDone(){return this.is_done;}
+
+    public void setDone(){this.is_done = true;}
+    public void setUnDone(){this.is_done = false;}
 }

@@ -10,11 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.test.taskcurrent.MainActivity;
 import com.test.taskcurrent.R;
 import com.test.taskcurrent.taskOfCurrentDay;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
