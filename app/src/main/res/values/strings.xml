@@ -6,6 +6,8 @@
 
     <string name="toastError">Вы уже запланировали на этот день(</string>
 
+    <string name="tagMainCellDate">date</string>
+
 
     <!--DATABASE BLOCK-->
     <string name="databaseColumnId">id</string>
@@ -29,6 +31,7 @@
     <string name="menuSetDone">Отметить как выполненное</string>
 
     <string name="intentExtraId">id</string>
+    <string name="intentExtraDate">date</string>
 
     <string name="dialog_title_add_new_task">Введите задание</string>
 </resources>

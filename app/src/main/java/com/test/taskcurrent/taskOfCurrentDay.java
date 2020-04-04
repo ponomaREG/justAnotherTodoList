@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.taskcurrent.helpers.Converters;
@@ -47,7 +49,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_of_current_days);
-        hideTittleOfActionBar();
+        prepareActionBar();
         init();
 
 
@@ -78,9 +80,9 @@ public class taskOfCurrentDay extends AppCompatActivity {
         findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> addNewTask());
     }
 
-    private void hideTittleOfActionBar(){
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-    }
+//    private void hideTittleOfActionBar(){
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+//    }
 
 
     private List<Task> getListOfTasks(){
@@ -285,6 +287,21 @@ public class taskOfCurrentDay extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         };
+    }
+
+    @SuppressLint("WrongConstant")
+    private void prepareActionBar(){
+        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_custom_for_task);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actionBarTitle)).setText(getIntent().getStringExtra(getResources().getString(R.string.intentExtraDate)));
+        getSupportActionBar().getCustomView().findViewById(R.id.actionBarIconBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void deleteTaskLineInDatabase(int id){

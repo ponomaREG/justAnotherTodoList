@@ -100,6 +100,7 @@ public class mainTasks extends AppCompatActivity {
                         0);
                 baseTextView.setLayoutParams(lp);
                 baseTextView.setText(c.getString(c.getColumnIndex(getResources().getString(R.string.databaseColumnDate))));
+                baseTextView.setTag(R.string.tagMainCellDate,c.getString(c.getColumnIndex(getResources().getString(R.string.databaseColumnDate))));
                 baseTextView.setTag(c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnId))));
 
                 baseTextView.setOnClickListener(ocl);
@@ -119,7 +120,10 @@ public class mainTasks extends AppCompatActivity {
     private View.OnClickListener getOclForCellDays(){
         return v->{
             int idDays = (int) v.getTag();
-            startActivity(new Intent(mainTasks.this,taskOfCurrentDay.class).putExtra(getResources().getString(R.string.intentExtraId),idDays));
+            Intent intent = new Intent(mainTasks.this,taskOfCurrentDay.class);
+            intent.putExtra(getResources().getString(R.string.intentExtraId),idDays);
+            intent.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
+            startActivity(intent);
         };
     }
 
