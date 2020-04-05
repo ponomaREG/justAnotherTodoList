@@ -140,12 +140,12 @@ public class taskOfCurrentDay extends AppCompatActivity {
         final EditText new_task = view.findViewById(R.id.dialog_newTask);
         ab.setCustomTitle(this.getLayoutInflater().inflate(R.layout.dialog_custom_title,null))
                 .setView(view)
-                .setPositiveButton("Создать", (dialog, which) -> {
+                .setPositiveButton(getResources().getString(R.string.dialog_button_make), (dialog, which) -> {
                     Log.d("MAKE",new_task.getText().toString());
                     addIntoDatabaseNewTask(new_task.getText().toString(),id);
                     dialog.dismiss();
                 })
-                .setNegativeButton("Отмена",((dialog, which) -> dialog.dismiss()));
+                .setNegativeButton(getResources().getString(R.string.dialog_button_cancel),((dialog, which) -> dialog.dismiss()));
         AlertDialog ad_cr = ab.create();
         ad_cr.setOnShowListener(dialog -> {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,100.0f);

@@ -35,4 +35,6 @@
     <string name="intentExtraDate">date</string>
 
     <string name="dialog_title_add_new_task">Enter task</string>
+    <string name="dialog_button_make">Add</string>
+    <string name="dialog_button_cancel">Cancel</string>
 </resources>

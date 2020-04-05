@@ -34,4 +34,6 @@
     <string name="intentExtraDate">date</string>
 
     <string name="dialog_title_add_new_task">Введите задание</string>
+    <string name="dialog_button_make">Создать</string>
+    <string name="dialog_button_cancel">Отмена</string>
 </resources>
