@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.test.taskcurrent.Services.ForegroundServiceForNotify;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 import com.test.taskcurrent.helpers.Task;
@@ -78,6 +81,14 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
     private void initOclForButtonAdd(){
         findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> addNewTask());
+    }
+
+    private void startService(){
+        Intent intent = new Intent(this, ForegroundServiceForNotify.class);
+        intent.putExtra("time",1000000L);
+        intent.putExtra("id_day",id);
+        intent.putExtra("title","TEST");
+        startService(intent);
     }
 
 //    private void hideTittleOfActionBar(){
@@ -296,11 +307,9 @@ public class taskOfCurrentDay extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actionBarTitle)).setText(getIntent().getStringExtra(getResources().getString(R.string.intentExtraDate)));
-        getSupportActionBar().getCustomView().findViewById(R.id.actionBarIconBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        getSupportActionBar().getCustomView().findViewById(R.id.actionBarIconBack).setOnClickListener(v -> {
+            startService();
+            finish();
         });
     }
 
