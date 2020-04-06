@@ -12,9 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
+            android:name=".Services.MyIntentService"
+            android:exported="false"></service>
+
+        <receiver
+            android:name=".helpers.BroadCastReceiverNotify"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
             android:name=".Services.ForegroundServiceForNotify"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".taskOfCurrentDay" />
         <activity android:name=".mainTasks">

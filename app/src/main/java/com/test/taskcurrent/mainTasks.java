@@ -1,14 +1,20 @@
 package com.test.taskcurrent;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -19,11 +25,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.test.taskcurrent.Services.ForegroundServiceForNotify;
+import com.test.taskcurrent.Services.MyIntentService;
 import com.test.taskcurrent.helpers.AnotherHelpers;
+import com.test.taskcurrent.helpers.BroadCastReceiverNotify;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +44,9 @@ public class mainTasks extends AppCompatActivity {
     private DBHelper dbhelper;
     private ActionMode mActionMode;
     private ArrayList<View> list_of_checked_cells;
+    private AlarmManager alarmManager;
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +67,7 @@ public class mainTasks extends AppCompatActivity {
     private void initVariables(){
         list_of_checked_cells = new ArrayList<>();
         dbhelper = new DBHelper(this);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
     private void hideTittleOfActionBar(){
@@ -123,7 +137,18 @@ public class mainTasks extends AppCompatActivity {
             Intent intent = new Intent(mainTasks.this,taskOfCurrentDay.class);
             intent.putExtra(getResources().getString(R.string.intentExtraId),idDays);
             intent.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
-            startActivity(intent);
+            Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
+            Calendar calendar = Calendar.getInstance();
+            try {
+                calendar.setTime(new SimpleDateFormat("dd.MM.yy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            intent_for_notify.putExtra("id_day",idDays);
+            intent_for_notify.putExtra("time_set_notif", calendar.getTimeInMillis());
+            intent_for_notify.putExtra("action","add");
+            startService(intent_for_notify);
+
         };
     }
 
@@ -174,7 +199,7 @@ public class mainTasks extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year,month,dayOfMonth);
-            addIntoDatabaseNewDate(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
+            addIntoDatabaseNewDate(AnotherHelpers.convertLongToDate(calendar.getTimeInMillis()));
             updateTaskLL();
         }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
@@ -256,6 +281,16 @@ public class mainTasks extends AppCompatActivity {
     }
 
 
+//    private void addNewNotifyToDelay(long delay,int id_n){
+//        Intent intent = new Intent(this, BroadCastReceiverNotify.class);
+//        intent.putExtra(BroadCastReceiverNotify.NOTIFICATION_ID,id_n);
+//        intent.putExtra(BroadCastReceiverNotify.NOTIFICATION,BroadCastReceiverNotify.getNotification(this,default_notification_channel_id));
+//        PendingIntent pend_intent = PendingIntent.getBroadcast(this,id_n,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        assert alarmManager != null;
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() +delay,pend_intent);
+//    }
 
 
 }

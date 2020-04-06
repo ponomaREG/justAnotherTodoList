@@ -83,13 +83,6 @@ public class taskOfCurrentDay extends AppCompatActivity {
         findViewById(R.id.mainButtonAddNewDay).setOnClickListener(v -> addNewTask());
     }
 
-    private void startService(){
-        Intent intent = new Intent(this, ForegroundServiceForNotify.class);
-        intent.putExtra("time",1000000L);
-        intent.putExtra("id_day",id);
-        intent.putExtra("title","TEST");
-        startService(intent);
-    }
 
 //    private void hideTittleOfActionBar(){
 //        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -308,7 +301,6 @@ public class taskOfCurrentDay extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actionBarTitle)).setText(getIntent().getStringExtra(getResources().getString(R.string.intentExtraDate)));
         getSupportActionBar().getCustomView().findViewById(R.id.actionBarIconBack).setOnClickListener(v -> {
-            startService();
             finish();
         });
     }

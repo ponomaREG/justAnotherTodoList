@@ -141,6 +141,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public Cursor getInfoFromTableByCondition(String query,String table, String condition, String equal, String column){
+        Cursor c = this.getReadableDatabase().rawQuery(
+                String.format(
+                        query,
+                        table,
+                        condition,
+                        equal
+                ) ,null
+        );
+        c.moveToFirst();
+        return c;
+    }
+
+
     public int getIDFromTableTwoCondition(String query,String table, String condition_1, String equal_1, String condition_2, String equal_2, String column){
         Cursor c = this.getReadableDatabase().rawQuery(
                 String.format(
@@ -157,4 +171,7 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         return id;
     }
+
+
+
 }
