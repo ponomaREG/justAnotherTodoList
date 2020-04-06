@@ -42,26 +42,19 @@ public class ForegroundServiceForNotify extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getStringExtra("action");
         long time_set = intent.getLongExtra("time_set_notif",SystemClock.elapsedRealtime());
-        Log.d("ELAPSED",SystemClock.elapsedRealtime()+" ");
-        Log.d("ELAPSED",time_set+" ");
-        int id_day = intent.getIntExtra("id_day",-1);
+        int id_day = intent.getIntExtra("id",-1);
 //        DBHelper dbhelper = intent.getParcelableExtra("dbhelper");
         if (checkNotificationChannel()) {
             if (action != null) {
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent intent_broadcast = new Intent(this, BroadCastReceiverNotify.class);
                 intent_broadcast.putExtra("request_code", startId);
-                intent_broadcast.putExtra("id_day",id_day);
+                intent_broadcast.putExtra("id",id_day);
+                intent_broadcast.putExtra("date",intent.getStringExtra("date"));
                 PendingIntent pendIntent = PendingIntent.getBroadcast(this, count, intent_broadcast, 0);
                 if (action.equals("add")) {
                     assert am != null;
-                    Calendar calendar = Calendar.getInstance();
-                    try {
-                        calendar.setTime(new SimpleDateFormat("dd.MM.yy HH:mm:ss").parse("07.04.20 02:09:00"));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    setExactAndAllowWhileIdle(am, AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendIntent);
+                    setExactAndAllowWhileIdle(am, AlarmManager.RTC_WAKEUP, time_set, pendIntent);
                 } else if (action.equals("delete")) {
                     assert am != null;
                     am.cancel(pendIntent);

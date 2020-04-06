@@ -140,14 +140,16 @@ public class mainTasks extends AppCompatActivity {
             Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
             Calendar calendar = Calendar.getInstance();
             try {
-                calendar.setTime(new SimpleDateFormat("dd.MM.yy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
+                calendar.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            intent_for_notify.putExtra("id_day",idDays);
-            intent_for_notify.putExtra("time_set_notif", calendar.getTimeInMillis());
+            intent_for_notify.putExtra("id",idDays);
+            intent_for_notify.putExtra("time_set_notif", AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(),9));
             intent_for_notify.putExtra("action","add");
+            intent_for_notify.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
             startService(intent_for_notify);
+            startActivity(intent);
 
         };
     }
@@ -260,7 +262,19 @@ public class mainTasks extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                for (View v : list_of_checked_cells) deleteDayLineInDatabase((int) v.getTag());
+                for (View v : list_of_checked_cells) {
+                    deleteDayLineInDatabase((int) v.getTag());
+                    Intent intent_for_notify = new Intent(mainTasks.this, ForegroundServiceForNotify.class);
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        calendar.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    intent_for_notify.putExtra("id", (int) v.getTag());
+                    intent_for_notify.putExtra("time_set_notif", AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(), 9));
+                    intent_for_notify.putExtra("action", "delete");
+                }
                 mode.finish();
                 return false;
             }
