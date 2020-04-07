@@ -25,15 +25,18 @@
     <string name="databaseQueryInsertDataInTable">insert into %s (%s) values (%s);</string>
     <string name="database_condition_delete">id = %s</string>
     <string name="database_condition_update">id = %d</string>
+    <string name="database_condition_update_uni">%s = %d</string>
     <!--DATABASE BLOCK END-->
 
     <string name="menuDelete">Удалить</string>
     <string name="menuSetDone">Отметить как выполненное</string>
+    <string name="menuEdit">Отредактировать</string>
 
     <string name="intentExtraId">id</string>
     <string name="intentExtraDate">date</string>
 
     <string name="dialog_title_add_new_task">Введите задание</string>
     <string name="dialog_button_make">Создать</string>
+    <string name="dialog_button_edit">Редактировать</string>
     <string name="dialog_button_cancel">Отмена</string>
 </resources>

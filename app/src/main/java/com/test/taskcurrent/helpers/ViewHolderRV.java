@@ -49,6 +49,7 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
             holder.task.setPaintFlags(holder.task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
             holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_selector));
         }
+        holder.view.setTag(getDataSet().get(position).getID());
         holder.task.setText(this.tasks.get(position).getTask());
         setCorrectImageToIcon(holder.icon,position);
         setOclToImageIcon(holder.icon,position);
@@ -154,9 +155,11 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
         TextView task;
         ImageView icon, star;
         LinearLayout iconLL, textViewLL;
+        View view;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+            view = itemView;
             task = itemView.findViewById(R.id.task);
             iconLL = itemView.findViewById(R.id.line_llIcon);
             icon = itemView.findViewById(R.id.line_IconSetDoneOrUndone);

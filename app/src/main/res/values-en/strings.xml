@@ -26,15 +26,18 @@
     <string name="databaseQueryInsertDataInTable">insert into %s (%s) values (%s);</string>
     <string name="database_condition_delete">id = %s</string>
     <string name="database_condition_update">id = %d</string>
+    <string name="database_condition_update_uni">%s = %d</string>
     <!--DATABASE BLOCK END-->
 
     <string name="menuDelete">Delete</string>
     <string name="menuSetDone">Mark as done</string>
+    <string name="menuEdit">Edit</string>
 
     <string name="intentExtraId">id</string>
     <string name="intentExtraDate">date</string>
 
     <string name="dialog_title_add_new_task">Enter task</string>
     <string name="dialog_button_make">Add</string>
+    <string name="dialog_button_edit">Edit</string>
     <string name="dialog_button_cancel">Cancel</string>
 </resources>

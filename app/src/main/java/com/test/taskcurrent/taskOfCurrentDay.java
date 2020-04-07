@@ -123,19 +123,26 @@ public class taskOfCurrentDay extends AppCompatActivity {
     }
 
     private void addNewTask(){
-        createDialogBuilder();
+        createDialogBuilder(false,null,-1);
+    }
+
+    private void editExistsTask(){
+        createDialogBuilder(true,checked_tasks.get(0).getTask(),checked_tasks.get(0).getID());
     }
 
     @SuppressLint("InflateParams")
-    public void createDialogBuilder(){
+    public void createDialogBuilder(boolean isEdit,String text_begin,int id_task){
         AlertDialog.Builder ab = new AlertDialog.Builder(this,R.style.AlertDialog);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_edittextview,null);
         final EditText new_task = view.findViewById(R.id.dialog_newTask);
+        if(isEdit) new_task.setText(text_begin);
+        String positive_button_title = null;
+        if(isEdit) positive_button_title  = getResources().getString(R.string.dialog_button_edit);
+        else positive_button_title  = getResources().getString(R.string.dialog_button_make);
         ab.setCustomTitle(this.getLayoutInflater().inflate(R.layout.dialog_custom_title,null))
                 .setView(view)
-                .setPositiveButton(getResources().getString(R.string.dialog_button_make), (dialog, which) -> {
-                    Log.d("MAKE",new_task.getText().toString());
-                    addIntoDatabaseNewTask(new_task.getText().toString(),id);
+                .setPositiveButton(positive_button_title, (dialog, which) -> {
+                    addOrEditIntoDatabaseNewTask(new_task.getText().toString(),id,isEdit,id_task);
                     dialog.dismiss();
                 })
                 .setNegativeButton(getResources().getString(R.string.dialog_button_cancel),((dialog, which) -> dialog.dismiss()));
@@ -157,19 +164,43 @@ public class taskOfCurrentDay extends AppCompatActivity {
         ad_cr.show();
     }
 
-    private void addIntoDatabaseNewTask(String task, int id_day){
+    private void addOrEditIntoDatabaseNewTask(String task, int id_day, boolean is_edit, int task_id_for_edit){
         ContentValues cv = new ContentValues();
         cv.put(getResources().getString(R.string.databaseColumnTask),task);
-        cv.put(getResources().getString(R.string.databaseColumnIdDay),id_day);
-        try {
-            long id_task = dbhelper.getWritableDatabase().insertOrThrow(
-                    getResources().getString(R.string.databaseTableTasks),
-                    null,
-                    cv
-                    );
-            addTaskInListOfTasksAtLast((int) id_task,task);
-        }catch(SQLiteConstraintException exc){
-            Toast.makeText(this,"Произошла ошибка(",Toast.LENGTH_SHORT).show();
+        if(!is_edit) {
+            try {
+                cv.put(getResources().getString(R.string.databaseColumnIdDay),id_day);
+                long id_task = dbhelper.getWritableDatabase().insertOrThrow(
+                        getResources().getString(R.string.databaseTableTasks),
+                        null,
+                        cv
+                );
+                addTaskInListOfTasksAtLast((int) id_task, task);
+            } catch (SQLiteConstraintException exc) {
+                Toast.makeText(this, "Произошла ошибка(", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            try {
+                long id_task = dbhelper.getWritableDatabase().update(
+                        getResources().getString(R.string.databaseTableTasks),
+                        cv,
+                        String.format(getResources().getString(R.string.database_condition_update_uni), getResources().getString(R.string.databaseColumnId),task_id_for_edit),
+                        null
+                );
+            } catch (SQLiteConstraintException exc) {
+                Toast.makeText(this, "Произошла ошибка(", Toast.LENGTH_SHORT).show();
+            }
+            editInDataSet(task,task_id_for_edit);
+            notifyAdapterBecauseDataSetChanged();
+        }
+    }
+
+    private void editInDataSet(String new_task,int id_task){
+        for(int i = 0;i<adapter.getDataSet().size();i++){
+            if(adapter.getDataSet().get(i).getID()==id_task) {
+                adapter.getDataSet().get(i).setTask(new_task);
+                break;
+            }
         }
     }
 
@@ -226,9 +257,18 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
     public void addInCheckedTasks(int position){
         checked_tasks.add(adapter.getDataSet().get(position));
+        checkIfCheckedTaskIsOneAndLaunchOrUnlaucnhEditButton();
         Log.d("POST",position+" ");
         Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.task_pressed));
 //        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.setSelected(true);
+    }
+
+    private void checkIfCheckedTaskIsOneAndLaunchOrUnlaucnhEditButton(){
+        if(checked_tasks.size()==1){
+            mActionMode.getMenu().findItem(R.id.menuButtonEdit).setVisible(true);
+        }else{
+            mActionMode.getMenu().findItem(R.id.menuButtonEdit).setVisible(false);
+        }
     }
 
     public boolean checkIfTaskAlreadyInCheckedTasks(Task t){
@@ -239,16 +279,22 @@ public class taskOfCurrentDay extends AppCompatActivity {
        checked_tasks.remove(adapter.getDataSet().get(position));
        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.task));
 //        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.setSelected(false);
-       checkedTasksForZeroSizeAndIfZeroThenFinishActionMode();
+       if(!checkedTasksForZeroSizeAndIfZeroThenFinishActionMode())
+       checkIfCheckedTaskIsOneAndLaunchOrUnlaucnhEditButton();
     }
 
-    public void checkedTasksForZeroSizeAndIfZeroThenFinishActionMode(){
-        if(checked_tasks.size()==0) mActionMode.finish();
+    public boolean checkedTasksForZeroSizeAndIfZeroThenFinishActionMode(){
+        if(checked_tasks.size()==0) {
+            mActionMode.finish();
+            return true;
+        }
+        return false;
     }
 
 
     private ActionMode.Callback getActionMode() {
         return  new ActionMode.Callback() {
+
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 MenuInflater mi = mode.getMenuInflater();
@@ -263,12 +309,17 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                if(item.getItemId() == R.id.menuButtonDelete){
                 for (Task v : checked_tasks) {
                        adapter.getDataSet().remove(v);
                        deleteTaskLineInDatabase(v.getID());
                     }
+                }else{
+                    editExistsTask();
+                }
                 mode.finish();
                 notifyAdapterBecauseDataSetChanged();
+
                     //                    case R.id.buttonSetDone:
 //                        for(Task t:checked_tasks){
 //                            if(!t.isDone()) t.setDone();

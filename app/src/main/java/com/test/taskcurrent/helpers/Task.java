@@ -14,6 +14,8 @@ public class Task {
     }
     public String getTask(){return this.task;}
     public int getID(){return this.id;}
+    public void setTask(String task){this.task = task;}
+
     public boolean isDone(){return this.is_done;}
     public boolean isStar(){return this.is_star;}
 
