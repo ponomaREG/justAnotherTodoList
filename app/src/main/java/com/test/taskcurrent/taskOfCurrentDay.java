@@ -213,6 +213,10 @@ public class taskOfCurrentDay extends AppCompatActivity {
         notifyAdapterBecauseDataSetChanged();
     }
 
+    private void moveDoneTaskInEndOfList(){
+
+    }
+
 //    private void removeTaskFromDatabaseByID(int id) {
 //        ContentValues cv = new ContentValues();
 //        cv.put(getResources().getString(R.string.databaseColumnId), id);

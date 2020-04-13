@@ -44,6 +44,8 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolderRV.ViewHolder holder, int position) {
         if(getDataSet().get(position).isDone()){
             holder.task.setPaintFlags(holder.task.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_selector));
+//            moveDoneTaskInEndOfTheList(position);
 //            holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_done_style));
         }else {
             holder.task.setPaintFlags(holder.task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
@@ -84,7 +86,10 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
         icon.setOnClickListener(v -> {
             Task t = getDataSet().get(position);
             if(t.isDone()) t.setUnDone();
-            else t.setDone();
+            else {
+                t.setDone();
+//                moveDoneTaskInEndOfTheList(position);
+            }
             ((taskOfCurrentDay) activity).setDoneOrUndoneTaskByID(t.getID(),t.isDone());
             this.notifyDataSetChanged();
         });
@@ -138,6 +143,12 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
         getDataSet().remove(position);
         getDataSet().add(index_of_last_task_with_star,t);
     }
+
+//    private void moveDoneTaskInEndOfTheList(int position){
+//        Task t = getDataSet().get(position);
+//        getDataSet().remove(position);
+//        getDataSet().add(getDataSet().size()-1,t);
+//    }
 
     private int findLastTaskWithStar(){
         int index_of_last_star = -1;

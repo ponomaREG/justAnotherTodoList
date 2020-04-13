@@ -39,4 +39,6 @@
     <string name="dialog_button_make">Создать</string>
     <string name="dialog_button_edit">Редактировать</string>
     <string name="dialog_button_cancel">Отмена</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

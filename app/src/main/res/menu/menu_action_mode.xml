@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/menuButtonDelete"  android:title="@string/menuDelete" android:icon="@drawable/main_menu_delete"/>
+    <item
+        android:id="@+id/menuButtonDelete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/menuDelete" />
     <item
         android:id="@+id/menuButtonEdit"
         android:visible="false"

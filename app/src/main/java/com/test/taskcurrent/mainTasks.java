@@ -137,18 +137,23 @@ public class mainTasks extends AppCompatActivity {
             Intent intent = new Intent(mainTasks.this,taskOfCurrentDay.class);
             intent.putExtra(getResources().getString(R.string.intentExtraId),idDays);
             intent.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
-            Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
             Calendar calendar = Calendar.getInstance();
             try {
                 calendar.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            //SET NOTIFY
+            long time_set = AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(),14);
+            if(System.currentTimeMillis()<time_set){
+            Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
             intent_for_notify.putExtra("id",idDays);
-            intent_for_notify.putExtra("time_set_notif", AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(),9));
+            intent_for_notify.putExtra("time_set_notif", time_set);
             intent_for_notify.putExtra("action","add");
             intent_for_notify.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
             startService(intent_for_notify);
+            }
             startActivity(intent);
 
         };
