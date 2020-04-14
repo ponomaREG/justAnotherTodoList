@@ -173,5 +173,27 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    public Cursor getDatesWithOrder(){
+        Cursor c = this.getReadableDatabase().rawQuery("select * from days order by date;",null);
+        c.moveToFirst();
+        return c;
+    }
+
+    public Cursor getTasksByID(int id){
+        Cursor c = this.getReadableDatabase().rawQuery(
+                String.format(
+                        context.getResources().getString(R.string.databaseQueryGetDataFromTableWhereEqualsWithOrderByDesc),
+                        context.getResources().getString(R.string.databaseTableTasks),
+                        context.getResources().getString(R.string.databaseColumnIdDay),
+                        String.valueOf(id),
+                        context.getResources().getString(R.string.databaseColumnIsStar)
+                ),
+                null
+        );
+        c.moveToFirst();
+        return c;
+    }
+
+
 
 }

@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
@@ -28,10 +32,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.taskcurrent.Services.ForegroundServiceForNotify;
+import com.test.taskcurrent.helpers.Config;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 import com.test.taskcurrent.helpers.Task;
 import com.test.taskcurrent.helpers.ViewHolderRV;
+import com.test.taskcurrent.helpers.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +97,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
     private List<Task> getListOfTasks(){
         List<Task> tasks = new ArrayList<>();
-        Cursor c = getTasksByID(id);
-        c.moveToFirst();
+        Cursor c = dbhelper.getTasksByID(id);
         for(int i = 0;i<c.getCount();i++){
             Log.d("IS DONE",String.valueOf(c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnIsDone))) == 1));
             Log.d("COUNT",i+" ");
@@ -106,20 +111,6 @@ public class taskOfCurrentDay extends AppCompatActivity {
         }
         c.close();
         return tasks;
-    }
-
-
-    private Cursor getTasksByID(int id){
-        return dbhelper.getReadableDatabase().rawQuery(
-                String.format(
-                        getResources().getString(R.string.databaseQueryGetDataFromTableWhereEqualsWithOrderByDesc),
-                        getResources().getString(R.string.databaseTableTasks),
-                        getResources().getString(R.string.databaseColumnIdDay),
-                        String.valueOf(id),
-                        getResources().getString(R.string.databaseColumnIsStar)
-                ),
-                null
-        );
     }
 
     private void addNewTask(){
@@ -365,4 +356,20 @@ public class taskOfCurrentDay extends AppCompatActivity {
         dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableTasks),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
     }
 
+
+    @Override
+    protected void onPause() {
+        updateListViewOfWidget();
+        super.onPause();
+    }
+
+    private void updateListViewOfWidget(){
+        AppWidgetManager awm = AppWidgetManager.getInstance(this);
+        SharedPreferences sp = getSharedPreferences(Config.WIDGET_PREF, Context.MODE_PRIVATE);
+        for(int idWidget:awm.getAppWidgetIds(new ComponentName(this, Widget.class))){
+            if(sp.getInt(Config.WIDGET_DAY_ID+idWidget,-1) == id){
+                awm.notifyAppWidgetViewDataChanged(idWidget,R.id.widget_listview);
+            }
+        }
+    }
 }

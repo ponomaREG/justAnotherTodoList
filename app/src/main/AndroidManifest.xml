@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.test.taskcurrent">
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -11,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".helpers.Config">
+        </activity>
+
         <receiver android:name=".helpers.Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -24,6 +28,9 @@
         <service
             android:name=".Services.MyIntentService"
             android:exported="false" />
+        <service android:name=".Services.ServiceRemoteForFactoryViews"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
             android:name=".helpers.BroadCastReceiverNotify"

@@ -2,12 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:gravity="center"
+    android:background="@drawable/task"
     android:layout_height="match_parent">
-    <TextView
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textAlignment="center"-->
+<!--        android:id="@+id/appwidget_text"-->
+<!--        android:textSize="45dp"-->
+<!--        android:text="TEST"/>-->
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="45dp"
-        android:text="TEST"/>
+        android:layout_height="match_parent"
+        android:id="@+id/widget_listview"/>
 
 </LinearLayout>
