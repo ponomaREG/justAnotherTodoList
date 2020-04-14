@@ -25,6 +25,7 @@ public class Widget extends AppWidgetProvider {
         if(widgetText == null) return;
 //        views.setTextViewText(R.id.appwidget_text, widgetText);
         // Instruct the widget manager to update the widget
+        views.setTextViewText(R.id.widget_tv_title,widgetText);
         setList(views,context,appWidgetId);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

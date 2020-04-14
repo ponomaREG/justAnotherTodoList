@@ -174,7 +174,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public Cursor getDatesWithOrder(){
-        Cursor c = this.getReadableDatabase().rawQuery("select * from days order by date;",null);
+        Cursor c = this.getReadableDatabase().rawQuery("select * from days order by date desc;",null);
         c.moveToFirst();
         return c;
     }

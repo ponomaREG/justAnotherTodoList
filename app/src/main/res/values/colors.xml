@@ -9,6 +9,7 @@
     <color name="colorDarkGray">#878787</color>
     <color name="colorFullBlack">#000000</color>
     <color name="colorFullWhite">#FFFFFF</color>
+    <color name="colorStarYellow">#B1A32B</color>
 
     <color name="mainSolidTask">#FFFFFF</color>
     <color name="solidTask">#FFFFFF</color>

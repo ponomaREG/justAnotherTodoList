@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
     private ArrayList<String> tasks;
+    private ArrayList<Integer> pos_of_done_tasks , pos_of_star_tasks;
     private Context context;
     private int widgetID;
     private DBHelper dbhelper;
@@ -30,6 +32,7 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public void onCreate() {
         tasks = new ArrayList<>();
+
         dbhelper = new DBHelper(context);
         sp = context.getSharedPreferences(Config.WIDGET_PREF,Context.MODE_PRIVATE);
     }
@@ -41,10 +44,15 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
         Log.d("DAYID",dayID+"");
         if(dayID!=-1) {
             Cursor c = dbhelper.getTasksByID(dayID);
+            pos_of_done_tasks = new ArrayList<>();
+            pos_of_star_tasks = new ArrayList<>();
             for(int i = 0;i<c.getCount();i++) {
                 tasks.add(c.getString(c.getColumnIndex("task")));
+                if(c.getInt(c.getColumnIndex("is_done")) == 1) pos_of_done_tasks.add(i);
+                if(c.getInt(c.getColumnIndex("is_star")) == 1) pos_of_star_tasks.add(i);
                 c.moveToNext();
             }
+            c.close();
         }else{
             Toast.makeText(context,"У Вас нет заданий",Toast.LENGTH_SHORT).show();
         }
@@ -64,6 +72,13 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_list_item);
         rv.setTextViewText(R.id.widget_list_item_tv,tasks.get(position));
+        if(pos_of_done_tasks.contains(position)) rv.setInt(R.id.widget_list_item_tv,"setPaintFlags",
+                Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+        else rv.setInt(R.id.widget_list_item_tv,"setPaintFlags",Paint.ANTI_ALIAS_FLAG);
+        if(pos_of_star_tasks.contains(position)) rv.setInt(R.id.widget_list_item_tv,"setBackgroundResource",
+                R.drawable.widget_drawable_star);
+        else rv.setInt(R.id.widget_list_item_tv,"setBackgroundResource",
+                R.drawable.widget_list_item);
         return rv;
     }
 
