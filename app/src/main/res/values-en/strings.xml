@@ -5,7 +5,11 @@
     <string name="mainLLContentDescription">TODO://IMAGE ICON</string>
 
 
-    <string name="toastError">You have already planned for this day (</string>
+    <string name="toastError_dayExists">You have already planned for this day (</string>
+    <string name="toastError_some_error">An error has occurred</string>
+    <string name="toastError_no_days">You have no created days to display (</string>
+    <string name="toastError_no_tasks">You have no tasks</string>
+    <string name="toastError_must_choose_day">Choose a day</string>
 
     <string name="tagMainCellDate">date</string>
 
@@ -20,6 +24,7 @@
     <string name="databaseTableDays">days</string>
     <string name="databaseTableTasks">tasks</string>
     <string name="databaseQueryGetAllDataFromTable">select * from %s;</string>
+    <string name="databaseQueryGetAllDataFromTableWithOrderDesc">select * from %s order by %s desc;</string>
     <string name="databaseQueryGetDataFromTableWhereEquals">select * from %s where %s = %s;</string>
     <string name="databaseQueryGetDataFromTableWhereEqualsWithOrderByDesc">select * from %s where %s = %s order by %s desc;</string>
     <string name="databaseQueryGetDataFromTableWhereEqualsTwoCondition">select * from %s where %s = %s and %s = %s;</string>
@@ -35,9 +40,33 @@
 
     <string name="intentExtraId">id</string>
     <string name="intentExtraDate">date</string>
+    <string name="intentExtraTimeForNotify">time_set_notif</string>
+    <string name="intentExtraAction">action</string>
+    <string name="intentExtraRequestCode">request_code</string>
+    <string name="intentExtraActionAdd">add</string>
+    <string name="intentExtraActionDelete">delete</string>
 
     <string name="dialog_title_add_new_task">Enter task</string>
     <string name="dialog_button_make">Add</string>
     <string name="dialog_button_edit">Edit</string>
+    <string name="dialog_edit_editText_hint">Do homework</string>
     <string name="dialog_button_cancel">Cancel</string>
+
+    <string name="notify_morning_title">Just remind you</string>
+    <string name="notify_morning_content">Check out the tasks you have to do today!</string>
+    <string name="notify_channel_desc">Morning notice</string>
+    <string name="notify_channel_title">Taskbook notifications</string>
+    <string name="notify_channel_id">NotifyChannel</string>
+
+    <string name="widget_action_kistclick">com.test.taskcurrent.widget.itemonclick</string>
+    <string name="widget_list_itemposition">item_position</string>
+    <string name="widget_pref">widget_pref</string>
+    <string name="widget_text">widget_text_"</string>
+    <string name="widget_dayID">widget_dayID_</string>
+
+    <string name="config_spinner_title">Choose a day</string>
+    <string name="config_button_commit">Post</string>
+
+    <string name="dateFormat">dd.MM.yyyy</string>
+    <string name="timeForNotify">8</string>
 </resources>
