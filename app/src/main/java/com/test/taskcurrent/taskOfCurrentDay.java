@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -31,8 +29,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.test.taskcurrent.Services.ForegroundServiceForNotify;
-import com.test.taskcurrent.helpers.Config;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 import com.test.taskcurrent.helpers.Task;
@@ -72,7 +68,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
     private void initVariables(){
         dbhelper = new DBHelper(this);
-        id = getIntent().getIntExtra("id",-1);
+        id = getIntent().getIntExtra(this.getResources().getString(R.string.intentExtraId),-1);
         if(id == -1) finish();
         if(!dbhelper.checkIfDayOfIdIsExist(id)) finish();
         adapter = new ViewHolderRV(this,getListOfTasks());
@@ -91,17 +87,12 @@ public class taskOfCurrentDay extends AppCompatActivity {
     }
 
 
-//    private void hideTittleOfActionBar(){
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-//    }
 
 
     private List<Task> getListOfTasks(){
         List<Task> tasks = new ArrayList<>();
         Cursor c = dbhelper.getTasksByID(id);
         for(int i = 0;i<c.getCount();i++){
-            Log.d("IS DONE",String.valueOf(c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnIsDone))) == 1));
-            Log.d("COUNT",i+" ");
             tasks.add(new Task(
                     c.getInt(c.getColumnIndex(getResources().getString(R.string.databaseColumnId))),
                     c.getString(c.getColumnIndex(getResources().getString(R.string.databaseColumnTask))),
@@ -128,7 +119,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
         View view = this.getLayoutInflater().inflate(R.layout.dialog_edittextview,null);
         final EditText new_task = view.findViewById(R.id.dialog_newTask);
         if(isEdit) new_task.setText(text_begin);
-        String positive_button_title = null;
+        String positive_button_title;
         if(isEdit) positive_button_title  = getResources().getString(R.string.dialog_button_edit);
         else positive_button_title  = getResources().getString(R.string.dialog_button_make);
         ab.setCustomTitle(this.getLayoutInflater().inflate(R.layout.dialog_custom_title,null))
@@ -169,18 +160,18 @@ public class taskOfCurrentDay extends AppCompatActivity {
                 );
                 addTaskInListOfTasksAtLast((int) id_task, task);
             } catch (SQLiteConstraintException exc) {
-                Toast.makeText(this, "Произошла ошибка(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, this.getResources().getString(R.string.toastError_some_error), Toast.LENGTH_SHORT).show();
             }
         }else {
             try {
-                long id_task = dbhelper.getWritableDatabase().update(
+                dbhelper.getWritableDatabase().update(
                         getResources().getString(R.string.databaseTableTasks),
                         cv,
                         String.format(getResources().getString(R.string.database_condition_update_uni), getResources().getString(R.string.databaseColumnId),task_id_for_edit),
                         null
                 );
             } catch (SQLiteConstraintException exc) {
-                Toast.makeText(this, "Произошла ошибка(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, this.getResources().getString(R.string.toastError_some_error), Toast.LENGTH_SHORT).show();
             }
             editInDataSet(task,task_id_for_edit);
             notifyAdapterBecauseDataSetChanged();
@@ -205,20 +196,6 @@ public class taskOfCurrentDay extends AppCompatActivity {
         notifyAdapterBecauseDataSetChanged();
     }
 
-    private void moveDoneTaskInEndOfList(){
-
-    }
-
-//    private void removeTaskFromDatabaseByID(int id) {
-//        ContentValues cv = new ContentValues();
-//        cv.put(getResources().getString(R.string.databaseColumnId), id);
-//        dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableTasks), String.format(getResources().getString(R.string.database_condition_delete), String.valueOf(id)), null);
-//    }
-//    private void removeTaskInListOfTasks(int position_of_task){
-//        adapter.getDataSet().remove(position_of_task);
-//
-//        notifyAdapterBecauseDataSetChanged();
-//    }
 
     public void setDoneOrUndoneTaskByID(int id_task,boolean is_done){
         ContentValues cv = new ContentValues();
@@ -254,9 +231,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public void addInCheckedTasks(int position){
         checked_tasks.add(adapter.getDataSet().get(position));
         checkIfCheckedTaskIsOneAndLaunchOrUnlaucnhEditButton();
-        Log.d("POST",position+" ");
         Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.task_pressed));
-//        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.setSelected(true);
     }
 
     private void checkIfCheckedTaskIsOneAndLaunchOrUnlaucnhEditButton(){
@@ -274,7 +249,6 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public void removeTaskFromCheckedTasks(int position){
        checked_tasks.remove(adapter.getDataSet().get(position));
        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.findViewById(R.id.line_textview_ll).setBackground(getResources().getDrawable(R.drawable.task));
-//        Objects.requireNonNull(rv.findViewHolderForAdapterPosition(position)).itemView.setSelected(false);
        if(!checkedTasksForZeroSizeAndIfZeroThenFinishActionMode())
        checkIfCheckedTaskIsOneAndLaunchOrUnlaucnhEditButton();
     }
@@ -315,22 +289,11 @@ public class taskOfCurrentDay extends AppCompatActivity {
                 }
                 mode.finish();
                 notifyAdapterBecauseDataSetChanged();
-
-                    //                    case R.id.buttonSetDone:
-//                        for(Task t:checked_tasks){
-//                            if(!t.isDone()) t.setDone();
-//                            else t.setUnDone();
-//                            setDoneOrUndoneTaskByID(t.getID(), t.isDone());
-//                        }
-//                        mode.finish();
-//                        notifyAdapterBecauseDataSetChanged();
-//                        break;
                 return false;
             }
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                Log.d("DESTROYED","1");
                 mActionMode = null;
                 isActionMode = false;
                 checked_tasks.clear();
@@ -347,13 +310,10 @@ public class taskOfCurrentDay extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actionBarTitle)).setText(getIntent().getStringExtra(getResources().getString(R.string.intentExtraDate)));
-        getSupportActionBar().getCustomView().findViewById(R.id.actionBarIconBack).setOnClickListener(v -> {
-            finish();
-        });
+        getSupportActionBar().getCustomView().findViewById(R.id.actionBarIconBack).setOnClickListener(v -> finish());
     }
 
     private void deleteTaskLineInDatabase(int id){
-        Log.d("ID",id+"");
         dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableTasks),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
     }
 
@@ -366,9 +326,9 @@ public class taskOfCurrentDay extends AppCompatActivity {
 
     private void updateListViewOfWidget(){
         AppWidgetManager awm = AppWidgetManager.getInstance(this);
-        SharedPreferences sp = getSharedPreferences(Config.WIDGET_PREF, Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(this.getResources().getString(R.string.widget_pref), Context.MODE_PRIVATE);
         for(int idWidget:awm.getAppWidgetIds(new ComponentName(this, Widget.class))){
-            if(sp.getInt(Config.WIDGET_DAY_ID+idWidget,-1) == id){
+            if(sp.getInt(this.getResources().getString(R.string.widget_dayID)+idWidget,-1) == id){
                 awm.notifyAppWidgetViewDataChanged(idWidget,R.id.widget_listview);
             }
         }

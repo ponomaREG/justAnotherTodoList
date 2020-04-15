@@ -16,12 +16,12 @@ public class Task {
     public int getID(){return this.id;}
     public void setTask(String task){this.task = task;}
 
-    public boolean isDone(){return this.is_done;}
-    public boolean isStar(){return this.is_star;}
+    boolean isDone(){return this.is_done;}
+    boolean isStar(){return this.is_star;}
 
-    public void setDone(){this.is_done = true;}
-    public void setUnDone(){this.is_done = false;}
+    void setDone(){this.is_done = true;}
+    void setUnDone(){this.is_done = false;}
 
-    public void setStar(){this.is_star = true;}
-    public void setUnStar(){this.is_star = false;}
+    void setStar(){this.is_star = true;}
+    void setUnStar(){this.is_star = false;}
 }

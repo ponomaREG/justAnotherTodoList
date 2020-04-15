@@ -1,21 +1,14 @@
 package com.test.taskcurrent;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,9 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.taskcurrent.Services.ForegroundServiceForNotify;
-import com.test.taskcurrent.Services.MyIntentService;
 import com.test.taskcurrent.helpers.AnotherHelpers;
-import com.test.taskcurrent.helpers.BroadCastReceiverNotify;
 import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 
@@ -44,9 +35,6 @@ public class mainTasks extends AppCompatActivity {
     private DBHelper dbhelper;
     private ActionMode mActionMode;
     private ArrayList<View> list_of_checked_cells;
-    private AlarmManager alarmManager;
-    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
-    private final static String default_notification_channel_id = "default" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +55,6 @@ public class mainTasks extends AppCompatActivity {
     private void initVariables(){
         list_of_checked_cells = new ArrayList<>();
         dbhelper = new DBHelper(this);
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
     private void hideTittleOfActionBar(){
@@ -86,7 +73,6 @@ public class mainTasks extends AppCompatActivity {
     }
 
     private void showDaysToUserAndSetOclToThem(){
-        Log.d("SHOW","1");
         LinearLayout taskLL = findViewById(R.id.tasksLL);
         LinearLayout baseLL;
         TextView baseTextView;
@@ -131,6 +117,7 @@ public class mainTasks extends AppCompatActivity {
         c.close();
     }
 
+    @SuppressLint("SimpleDateFormat")
     private View.OnClickListener getOclForCellDays(){
         return v->{
             int idDays = (int) v.getTag();
@@ -139,7 +126,7 @@ public class mainTasks extends AppCompatActivity {
             intent.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
             Calendar calendar = Calendar.getInstance();
             try {
-                calendar.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
+                calendar.setTime(Objects.requireNonNull(new SimpleDateFormat("dd.MM.yyyy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate)))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -148,9 +135,10 @@ public class mainTasks extends AppCompatActivity {
             long time_set = AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(),14);
             if(System.currentTimeMillis()<time_set){
             Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
-            intent_for_notify.putExtra("id",idDays);
-            intent_for_notify.putExtra("time_set_notif", time_set);
-            intent_for_notify.putExtra("action","add");
+            intent_for_notify.putExtra(this.getResources().getString(R.string.intentExtraId),idDays);
+            intent_for_notify.putExtra(this.getResources().getString(R.string.intentExtraTimeForNotify), time_set);
+            intent_for_notify.putExtra(this.getResources().getString(R.string.intentExtraAction),
+                    this.getResources().getString(R.string.intentExtraActionAdd));
             intent_for_notify.putExtra(getResources().getString(R.string.intentExtraDate),String.valueOf(v.getTag(R.string.tagMainCellDate)));
             startService(intent_for_notify);
             }
@@ -161,9 +149,6 @@ public class mainTasks extends AppCompatActivity {
 
     private View.OnLongClickListener getLongOclForCellDays(){
         return v -> {
-//            if(mActionMode != null){
-//                return false;
-//            }
             if(mActionMode == null) {
                 AnotherHelpers.vibrateWhenClickIsLong(this);
                 mActionMode = this.startActionMode(getActionMode());
@@ -222,7 +207,7 @@ public class mainTasks extends AppCompatActivity {
         try {
             dbhelper.getReadableDatabase().insertOrThrow(getResources().getString(R.string.databaseTableDays), null, cv);
         }catch (SQLiteConstraintException exc){
-            Toast.makeText(this,getResources().getString(R.string.toastError),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getResources().getString(R.string.toastError_dayExists),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -265,6 +250,7 @@ public class mainTasks extends AppCompatActivity {
                 return false;
             }
 
+            @SuppressLint("SimpleDateFormat")
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 for (View v : list_of_checked_cells) {
@@ -272,13 +258,14 @@ public class mainTasks extends AppCompatActivity {
                     Intent intent_for_notify = new Intent(mainTasks.this, ForegroundServiceForNotify.class);
                     Calendar calendar = Calendar.getInstance();
                     try {
-                        calendar.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(String.valueOf(v.getTag(R.string.tagMainCellDate))));
+                        calendar.setTime(Objects.requireNonNull(new SimpleDateFormat(getResources().getString(R.string.dateFormat)).parse(String.valueOf(v.getTag(R.string.tagMainCellDate)))));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    intent_for_notify.putExtra("id", (int) v.getTag());
-                    intent_for_notify.putExtra("time_set_notif", AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(), 9));
-                    intent_for_notify.putExtra("action", "delete");
+                    intent_for_notify.putExtra(getResources().getString(R.string.intentExtraId), (int) v.getTag());
+                    intent_for_notify.putExtra(getResources().getString(R.string.intentExtraTimeForNotify), AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(), Integer.parseInt(getResources().getString(R.string.timeForNotify))));
+                    intent_for_notify.putExtra(getResources().getString(R.string.intentExtraAction),
+                            getResources().getString(R.string.intentExtraActionDelete));
                     startService(intent_for_notify);
                 }
                 mode.finish();
@@ -287,7 +274,6 @@ public class mainTasks extends AppCompatActivity {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                Log.d("DESTROYED","1");
                 mActionMode = null;
                 list_of_checked_cells.clear();
                 updateTaskLL();
@@ -296,21 +282,7 @@ public class mainTasks extends AppCompatActivity {
     }
 
     private void deleteDayLineInDatabase(int id){
-        Log.d("ID",id+"");
         dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableDays),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
     }
-
-
-//    private void addNewNotifyToDelay(long delay,int id_n){
-//        Intent intent = new Intent(this, BroadCastReceiverNotify.class);
-//        intent.putExtra(BroadCastReceiverNotify.NOTIFICATION_ID,id_n);
-//        intent.putExtra(BroadCastReceiverNotify.NOTIFICATION,BroadCastReceiverNotify.getNotification(this,default_notification_channel_id));
-//        PendingIntent pend_intent = PendingIntent.getBroadcast(this,id_n,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        assert alarmManager != null;
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() +delay,pend_intent);
-//    }
-
 
 }

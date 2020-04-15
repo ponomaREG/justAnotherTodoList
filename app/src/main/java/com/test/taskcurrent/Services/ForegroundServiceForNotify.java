@@ -28,55 +28,31 @@ public class ForegroundServiceForNotify extends Service {
 
     @Override
     public void onCreate() {
-        Log.d("ONCREATE","!");
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String action = intent.getStringExtra("action");
-        long time_set = intent.getLongExtra("time_set_notif",SystemClock.elapsedRealtime());
-        int id_day = intent.getIntExtra("id",-1);
-//        DBHelper dbhelper = intent.getParcelableExtra("dbhelper");
+        String action = intent.getStringExtra(getResources().getString(R.string.intentExtraAction));
+        long time_set = intent.getLongExtra(getResources().getString(R.string.intentExtraTimeForNotify),SystemClock.elapsedRealtime());
+        int id_day = intent.getIntExtra(getResources().getString(R.string.intentExtraId),-1);
         if (checkNotificationChannel()) {
             if (action != null) {
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent intent_broadcast = new Intent(this, BroadCastReceiverNotify.class);
-                intent_broadcast.putExtra("request_code", startId);
-                intent_broadcast.putExtra("id",id_day);
-                intent_broadcast.putExtra("date",intent.getStringExtra("date"));
+                intent_broadcast.putExtra(getResources().getString(R.string.intentExtraRequestCode), startId);
+                intent_broadcast.putExtra(getResources().getString(R.string.intentExtraId),id_day);
+                intent_broadcast.putExtra(getResources().getString(R.string.intentExtraDate),intent.getStringExtra(getResources().getString(R.string.intentExtraDate)));
                 PendingIntent pendIntent = PendingIntent.getBroadcast(this, count, intent_broadcast, 0);
-                if (action.equals("add")) {
+                if (action.equals(getResources().getString(R.string.intentExtraActionAdd))) {
                     assert am != null;
                     setExactAndAllowWhileIdle(am, AlarmManager.RTC_WAKEUP, time_set, pendIntent);
-                } else if (action.equals("delete")) {
+                } else if (action.equals(getResources().getString(R.string.intentExtraActionDelete))) {
                     assert am != null;
                     am.cancel(pendIntent);
                 }
             }
             count++;
-//        long input_time = intent.getLongExtra("time",0);
-//        String input = intent.getStringExtra("title");
-//        int input_id = intent.getIntExtra("id_day",-1);
-//        if(input_id == -1) onDestroy();
-//
-////        createNotificationChannel();
-//        t = new Thread(() -> {
-//
-//        });
-//        Intent intent_pend = new Intent(this, taskOfCurrentDay.class).putExtra("id",input_id);
-//        PendingIntent pendInt = PendingIntent.getActivity(this, 0, intent_pend,0);
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2020, 3, 4,22,25);
-//        Notification notify = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setContentTitle(CHANNEL_TITLE)
-//                .setContentText(input)
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setShowWhen(true)
-//                .setContentIntent(pendInt)
-//                .build();
-//        managerNT.notify(1,notify);
-//        stopSelf(startId);
         }else Log.d("ERROR","!");
         stopSelf(startId);
         return START_STICKY;
@@ -98,12 +74,11 @@ public class ForegroundServiceForNotify extends Service {
                     context.getResources().getString(R.string.notify_channel_title),
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            channel.setDescription("Notify channel");
+            channel.setDescription(context.getResources().getString(R.string.notify_channel_desc));
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationManager managerNT = context.getSystemService(NotificationManager.class);
             assert managerNT != null;
             managerNT.createNotificationChannel(channel);
-            Log.d("ONCREATENORIFYCHANNEL","!");
         }
     }
 

@@ -1,6 +1,5 @@
 package com.test.taskcurrent.helpers;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -126,55 +125,61 @@ public class DBHelper extends SQLiteOpenHelper {
 //    }
 
 
-    public int getIDFromTable(String query,String table, String condition, String equal, String column){
-        Cursor c = this.getReadableDatabase().rawQuery(
-           String.format(
-                   query,
-                   table,
-                   condition,
-                   equal
-           ) ,null
-        );
-        c.moveToFirst();
-        int id = c.getColumnIndex(column);
-        c.close();
-        return id;
-    }
+//    public int getIDFromTable(String query,String table, String condition, String equal, String column){
+//        Cursor c = this.getReadableDatabase().rawQuery(
+//           String.format(
+//                   query,
+//                   table,
+//                   condition,
+//                   equal
+//           ) ,null
+//        );
+//        c.moveToFirst();
+//        int id = c.getColumnIndex(column);
+//        c.close();
+//        return id;
+//    }
 
-    public Cursor getInfoFromTableByCondition(String query,String table, String condition, String equal, String column){
+//    public Cursor getInfoFromTableByCondition(String query,String table, String condition, String equal, String column){
+//        Cursor c = this.getReadableDatabase().rawQuery(
+//                String.format(
+//                        query,
+//                        table,
+//                        condition,
+//                        equal
+//                ) ,null
+//        );
+//        c.moveToFirst();
+//        return c;
+//    }
+
+
+//    public int getIDFromTableTwoCondition(String query,String table, String condition_1, String equal_1, String condition_2, String equal_2, String column){
+//        Cursor c = this.getReadableDatabase().rawQuery(
+//                String.format(
+//                        query,
+//                        table,
+//                        condition_1,
+//                        equal_1,
+//                        condition_2,
+//                        equal_2
+//                ),null
+//        );
+//        c.moveToFirst();
+//        int id = c.getColumnIndex(column);
+//        c.close();
+//        return id;
+//    }
+
+
+    Cursor getDatesWithOrder(){ //"select * from days order by date desc;"
         Cursor c = this.getReadableDatabase().rawQuery(
                 String.format(
-                        query,
-                        table,
-                        condition,
-                        equal
-                ) ,null
-        );
-        c.moveToFirst();
-        return c;
-    }
-
-
-    public int getIDFromTableTwoCondition(String query,String table, String condition_1, String equal_1, String condition_2, String equal_2, String column){
-        Cursor c = this.getReadableDatabase().rawQuery(
-                String.format(
-                        query,
-                        table,
-                        condition_1,
-                        equal_1,
-                        condition_2,
-                        equal_2
-                ),null
-        );
-        c.moveToFirst();
-        int id = c.getColumnIndex(column);
-        c.close();
-        return id;
-    }
-
-
-    public Cursor getDatesWithOrder(){
-        Cursor c = this.getReadableDatabase().rawQuery("select * from days order by date desc;",null);
+                        context.getResources().getString(R.string.databaseQueryGetAllDataFromTableWithOrderDesc),
+                        context.getResources().getString(R.string.databaseTableDays),
+                        context.getResources().getString(R.string.databaseColumnDate)
+                                )
+                ,null);
         c.moveToFirst();
         return c;
     }
@@ -195,8 +200,18 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean checkIfDayOfIdIsExist(int id){
-        return this.getReadableDatabase().rawQuery("select * from days where id ="+id+";",null).getCount() >= 1;
+    public boolean checkIfDayOfIdIsExist(int id){ //"select * from days where id ="+id+";"
+        Cursor c = this.getReadableDatabase().rawQuery(
+                String.format(
+                        context.getResources().getString(R.string.databaseQueryGetDataFromTableWhereEquals),
+                        context.getResources().getString(R.string.databaseTableDays),
+                        context.getResources().getString(R.string.databaseColumnId),
+                        String.valueOf(id)
+                )
+                ,null);
+        boolean check = c.getCount() >= 1;
+        c.close();
+        return check;
     }
 
 

@@ -1,14 +1,11 @@
 package com.test.taskcurrent.helpers;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
-import androidx.annotation.RequiresApi;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +15,7 @@ public class AnotherHelpers {
     public static void vibrateWhenClickIsLong(Context context){
         long duration = 100;
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        assert vibrator != null;
         if(vibrator.hasVibrator()) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(duration,VibrationEffect.EFFECT_HEAVY_CLICK));
         }else vibrator.vibrate(duration);

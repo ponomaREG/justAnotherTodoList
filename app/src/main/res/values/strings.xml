@@ -4,12 +4,18 @@
     <string name="mainLLContentDescription">TODO://IMAGE ICON</string>
 
 
-    <string name="toastError">Вы уже запланировали на этот день(</string>
+    <string name="toastError_dayExists">Вы уже запланировали на этот день(</string>
+    <string name="toastError_some_error">Произошла ошибка(</string>
+    <string name="toastError_no_days">У Вас нет созданных дней для отображения(</string>
+    <string name="toastError_no_tasks">У Вас нет заданий</string>
+    <string name="toastError_must_choose_day">Выберите день</string>
+
 
     <string name="tagMainCellDate">date</string>
 
 
     <!--DATABASE BLOCK-->
+<!--    <string name="databaseNAME">everydaytasks.db</string>-->
     <string name="databaseColumnId">id</string>
     <string name="databaseColumnIdDay">id_day</string>
     <string name="databaseColumnDate">date</string>
@@ -19,6 +25,7 @@
     <string name="databaseTableDays">days</string>
     <string name="databaseTableTasks">tasks</string>
     <string name="databaseQueryGetAllDataFromTable">select * from %s;</string>
+    <string name="databaseQueryGetAllDataFromTableWithOrderDesc">select * from %s order by %s desc;</string>
     <string name="databaseQueryGetDataFromTableWhereEquals">select * from %s where %s = %s;</string>
     <string name="databaseQueryGetDataFromTableWhereEqualsWithOrderByDesc">select * from %s where %s = %s order by %s desc;</string>
     <string name="databaseQueryGetDataFromTableWhereEqualsTwoCondition">select * from %s where %s = %s and %s = %s;</string>
@@ -34,6 +41,11 @@
 
     <string name="intentExtraId">id</string>
     <string name="intentExtraDate">date</string>
+    <string name="intentExtraTimeForNotify">time_set_notif</string>
+    <string name="intentExtraAction">action</string>
+    <string name="intentExtraRequestCode">request_code</string>
+    <string name="intentExtraActionAdd">add</string>
+    <string name="intentExtraActionDelete">delete</string>
 
     <string name="dialog_title_add_new_task">Введите задание</string>
     <string name="dialog_button_make">Создать</string>
@@ -43,8 +55,20 @@
     <string name="notify_morning_title">Напоминание</string>
     <string name="notify_morning_content">Проверьте задачи, которые Вы должны сделать сегодня!</string>
     <string name="notify_channel_desc">Утренние уведомления</string>
-    <string name="notify_channel_title">Уведмоления задачника</string>
+    <string name="notify_channel_title">Уведомления задачника</string>
     <string name="notify_channel_id">NotifyChannel</string>
+
+    <string name="widget_action_kistclick">com.test.taskcurrent.widget.itemonclick</string>
+    <string name="widget_list_itemposition">item_position</string>
+    <string name="widget_pref">widget_pref</string>
+    <string name="widget_text">widget_text_"</string>
+    <string name="widget_dayID">widget_dayID_</string>
+
+    <string name="config_spinner_title">Выберите день</string>
+
+    <string name="dateFormat">dd.MM.yyyy</string>
+    <string name="timeForNotify">8</string>
+
 <!--    <string name="appwidget_text">EXAMPLE</string>-->
 <!--    <string name="add_widget">Add widget</string>-->
 </resources>

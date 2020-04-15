@@ -3,7 +3,6 @@ package com.test.taskcurrent.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +44,6 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
         if(getDataSet().get(position).isDone()){
             holder.task.setPaintFlags(holder.task.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_selector));
-//            moveDoneTaskInEndOfTheList(position);
-//            holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_done_style));
         }else {
             holder.task.setPaintFlags(holder.task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
             holder.textViewLL.setBackground(activity.getResources().getDrawable(R.drawable.task_selector));
@@ -88,7 +85,6 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
             if(t.isDone()) t.setUnDone();
             else {
                 t.setDone();
-//                moveDoneTaskInEndOfTheList(position);
             }
             ((taskOfCurrentDay) activity).setDoneOrUndoneTaskByID(t.getID(),t.isDone());
             this.notifyDataSetChanged();
@@ -118,7 +114,6 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
 
     private void moveTaskWithStarAtDataSetByOrder(int position){
         int index_of_first_task_without_star = findFirstTaskWithoutStar();
-        Log.d("Index",index_of_first_task_without_star+"");
         if((index_of_first_task_without_star != -1)&&(position>=index_of_first_task_without_star)) {
             Task t = getDataSet().get(position);
             getDataSet().remove(position);
@@ -144,11 +139,6 @@ public class ViewHolderRV extends RecyclerView.Adapter<ViewHolderRV.ViewHolder>{
         getDataSet().add(index_of_last_task_with_star,t);
     }
 
-//    private void moveDoneTaskInEndOfTheList(int position){
-//        Task t = getDataSet().get(position);
-//        getDataSet().remove(position);
-//        getDataSet().add(getDataSet().size()-1,t);
-//    }
 
     private int findLastTaskWithStar(){
         int index_of_last_star = -1;

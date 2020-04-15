@@ -25,9 +25,7 @@
                 android:resource="@xml/data_widget" />
         </receiver>
 
-        <service
-            android:name=".Services.MyIntentService"
-            android:exported="false" />
+
         <service android:name=".Services.ServiceRemoteForFactoryViews"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
