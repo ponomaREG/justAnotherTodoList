@@ -4,6 +4,8 @@
     android:minHeight="110dp"
     android:minWidth="180dp"
     android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:previewImage="@drawable/icon_widget"
     android:updatePeriodMillis="2400000"
     android:configure="com.test.taskcurrent.helpers.Config">
 </appwidget-provider>

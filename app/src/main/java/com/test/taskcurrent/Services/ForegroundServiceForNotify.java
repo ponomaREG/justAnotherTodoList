@@ -1,6 +1,7 @@
 package com.test.taskcurrent.Services;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,20 +14,13 @@ import android.os.SystemClock;
 import android.util.Log;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.test.taskcurrent.R;
 import com.test.taskcurrent.helpers.BroadCastReceiverNotify;
-import com.test.taskcurrent.helpers.DBHelper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class ForegroundServiceForNotify extends Service {
 
-    public static String CHANNEL_ID = "NotifyChannel", CHANNEL_TITLE = "Notify";
-
-    private NotificationManager managerNT;
     private int count = 0;
 
     public ForegroundServiceForNotify() {
@@ -92,7 +86,7 @@ public class ForegroundServiceForNotify extends Service {
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             assert nm != null;
-            if(nm.getNotificationChannel(CHANNEL_ID) == null) createNotificationChannel(this);
+            if(nm.getNotificationChannel(getResources().getString(R.string.notify_channel_title)) == null) createNotificationChannel(this);
             return true;
         } return NotificationManagerCompat.from(this).areNotificationsEnabled();
     }
@@ -100,12 +94,13 @@ public class ForegroundServiceForNotify extends Service {
     private void createNotificationChannel(Context context){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    CHANNEL_TITLE,
+                    context.getResources().getString(R.string.notify_channel_id),
+                    context.getResources().getString(R.string.notify_channel_title),
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             channel.setDescription("Notify channel");
-            managerNT = context.getSystemService(NotificationManager.class);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager managerNT = context.getSystemService(NotificationManager.class);
             assert managerNT != null;
             managerNT.createNotificationChannel(channel);
             Log.d("ONCREATENORIFYCHANNEL","!");
@@ -121,16 +116,13 @@ public class ForegroundServiceForNotify extends Service {
     public static void setExactAndAllowWhileIdle(AlarmManager alarmManager, int type, long triggerAtMillis, PendingIntent operation) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
             alarmManager.setExactAndAllowWhileIdle(type, triggerAtMillis, operation);
-        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            alarmManager.setExact(type, triggerAtMillis, operation);
         } else {
-            alarmManager.set(type, triggerAtMillis, operation);
+            alarmManager.setExact(type, triggerAtMillis, operation);
         }
     }
 
     @Override
     public void onDestroy() {
-        Log.d("ONDESTROY","!");
         super.onDestroy();
     }
 

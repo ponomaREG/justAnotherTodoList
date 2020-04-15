@@ -39,6 +39,12 @@
     <string name="dialog_button_make">Создать</string>
     <string name="dialog_button_edit">Редактировать</string>
     <string name="dialog_button_cancel">Отмена</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+
+    <string name="notify_morning_title">Напоминание</string>
+    <string name="notify_morning_content">Проверьте задачи, которые Вы должны сделать сегодня!</string>
+    <string name="notify_channel_desc">Утренние уведомления</string>
+    <string name="notify_channel_title">Уведмоления задачника</string>
+    <string name="notify_channel_id">NotifyChannel</string>
+<!--    <string name="appwidget_text">EXAMPLE</string>-->
+<!--    <string name="add_widget">Add widget</string>-->
 </resources>
