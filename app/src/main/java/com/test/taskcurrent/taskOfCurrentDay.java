@@ -74,6 +74,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
         dbhelper = new DBHelper(this);
         id = getIntent().getIntExtra("id",-1);
         if(id == -1) finish();
+        if(!dbhelper.checkIfDayOfIdIsExist(id)) finish();
         adapter = new ViewHolderRV(this,getListOfTasks());
         checked_tasks = new ArrayList<>();
     }

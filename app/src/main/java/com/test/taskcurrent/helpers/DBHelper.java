@@ -195,5 +195,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean checkIfDayOfIdIsExist(int id){
+        return this.getReadableDatabase().rawQuery("select * from days where id ="+id+";",null).getCount() >= 1;
+    }
+
 
 }

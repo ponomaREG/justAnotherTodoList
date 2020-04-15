@@ -79,6 +79,10 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
                 R.drawable.widget_drawable_star);
         else rv.setInt(R.id.widget_list_item_tv,"setBackgroundResource",
                 R.drawable.widget_list_item);
+        Intent clickIntent = new Intent();
+        clickIntent.putExtra(Widget.ITEM_POSITION,position);
+        clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetID);
+        rv.setOnClickFillInIntent(R.id.widget_list_item_tv,clickIntent);
         return rv;
     }
 

@@ -279,6 +279,7 @@ public class mainTasks extends AppCompatActivity {
                     intent_for_notify.putExtra("id", (int) v.getTag());
                     intent_for_notify.putExtra("time_set_notif", AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(), 9));
                     intent_for_notify.putExtra("action", "delete");
+                    startService(intent_for_notify);
                 }
                 mode.finish();
                 return false;
