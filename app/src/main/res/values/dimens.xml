@@ -29,8 +29,8 @@
     <dimen name="configButtonCommitTextSize">24sp</dimen>
     <dimen name="configSpinnerHeight">60dp</dimen>
 
-    <dimen name="widgetMinWidth">110dp</dimen>
-    <dimen name="widgetMinHeight">180dp</dimen>
+    <dimen name="widgetMinWidth">180dp</dimen>
+    <dimen name="widgetMinHeight">110dp</dimen>
     <dimen name="widgetLayoutTextViewPadding">2dp</dimen>
     <dimen name="widgetLayoutTextViewTextSize">30sp</dimen>
     <dimen name="widgetListViewItemLLPadding">5dp</dimen>

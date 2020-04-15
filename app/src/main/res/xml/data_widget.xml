@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget_layout"
-    android:minHeight="110dp"
+    android:minHeight="@dimen/widgetMinHeight"
     android:minWidth="@dimen/widgetMinWidth"
-    android:resizeMode="@dimen/widgetMinHeight"
-    android:widgetCategory="home_screen"
+    android:resizeMode="vertical|horizontal"
     android:previewImage="@drawable/icon_widget"
+    android:widgetCategory="home_screen"
     android:updatePeriodMillis="2400000"
     android:configure="com.test.taskcurrent.helpers.Config">
 </appwidget-provider>
