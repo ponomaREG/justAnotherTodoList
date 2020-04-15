@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:padding="2dp"
-        android:textSize="30dp"
+        android:padding="@dimen/widgetLayoutTextViewPadding"
+        android:textSize="@dimen/widgetLayoutTextViewTextSize"
         android:background="@drawable/widget_drawable_title"
         android:textColor="@color/colorFullBlack"/>
 <!--    <TextView-->

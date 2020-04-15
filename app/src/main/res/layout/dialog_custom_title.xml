@@ -5,15 +5,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
+        android:paddingLeft="@dimen/dialogEditTitlePaddingSide"
         android:background="@drawable/dialog_title_style"
-        android:paddingRight="10dp">
+        android:paddingRight="@dimen/dialogEditTitlePaddingSide">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/dialogEditTextViewMarginSidesTB"
+            android:layout_marginBottom="@dimen/dialogEditTextViewMarginSidesTB"
             android:textAlignment="center"
             android:textSize="@dimen/dialogTitleTextSize"
             android:text="@string/dialog_title_add_new_task"

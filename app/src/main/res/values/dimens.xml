@@ -4,20 +4,40 @@
     <dimen name="mainSizeTask">168sp</dimen>
     <dimen name="mainMarginTaskLeft">5dp</dimen>
     <dimen name="mainMarginTaskTop">15dp</dimen>
+    <dimen name="mainPaddingBottom">10dp</dimen>
     <dimen name="mainTaskTextSize">28sp</dimen>
     <dimen name="mainPaddingBottomContentLL">35dp</dimen>
+
     <dimen name="taskMarginTop">15dp</dimen>
     <dimen name="taskIconPadding">4dp</dimen>
     <dimen name="taskIconSize">30dp</dimen>
     <dimen name="taskStarSize">23dp</dimen>
     <dimen name="taskStarPadding">8dp</dimen>
+
     <dimen name="viewTaskInRvMarginTop">5dp</dimen>
     <dimen name="viewTaskInRvMarginSide">2dp</dimen>
     <dimen name="viewTaskInRvPaddingSide">15dp</dimen>
+
     <dimen name="iconAddSize">60dp</dimen>
+
     <dimen name="dialogTitleTextSize">28sp</dimen>
     <dimen name="dialogPaddingEditTextSide">15dp</dimen>
     <dimen name="dialogPaddingEditTextTop">15dp</dimen>
+    <dimen name="dialogEditTitlePaddingSide">10dp</dimen>
+    <dimen name="dialogEditTextViewMarginSidesTB">10dp</dimen>
+
+    <dimen name="configButtonCommitTextSize">24sp</dimen>
+    <dimen name="configSpinnerHeight">60dp</dimen>
+
+    <dimen name="widgetMinWidth">110dp</dimen>
+    <dimen name="widgetMinHeight">180dp</dimen>
+    <dimen name="widgetLayoutTextViewPadding">2dp</dimen>
+    <dimen name="widgetLayoutTextViewTextSize">30sp</dimen>
+    <dimen name="widgetListViewItemLLPadding">5dp</dimen>
+    <dimen name="widgetListViewItemTextViewPadding">6dp</dimen>\
+    <dimen name="widgetListViewItemTextViewTextSize">20sp</dimen>
+
+
 
     <!--
 Refer to App Widget Documentation for margin information
