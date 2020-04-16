@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">taskCurrent</string>
+    <string name="app_name">Just another todo list</string>
 
     <string name="mainLLContentDescription">TODO://IMAGE ICON</string>
 
@@ -10,6 +10,7 @@
     <string name="toastError_no_days">You have no created days to display (</string>
     <string name="toastError_no_tasks">You have no tasks</string>
     <string name="toastError_must_choose_day">Choose a day</string>
+    <string name="toastError_must_choose_color">Choose a color</string>
 
     <string name="tagMainCellDate">date</string>
 
@@ -66,7 +67,8 @@
 
     <string name="config_spinner_title">Choose a day</string>
     <string name="config_button_commit">Post</string>
+    <string name="config_actionbar_title">Choose a day</string>
 
     <string name="dateFormat">dd.MM.yyyy</string>
-    <string name="timeForNotify">8</string>
+    <string name="timeForNotifyYD">23</string>
 </resources>

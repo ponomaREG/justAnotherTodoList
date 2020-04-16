@@ -39,8 +39,8 @@ public class BroadCastReceiverNotify extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context,id,intent,0);
         builder.setContentTitle(context.getResources().getString(R.string.notify_morning_title))
                 .setContentText(context.getResources().getString(R.string.notify_morning_content))
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher))
+                .setSmallIcon(R.mipmap.ic_notify_small)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_notify))
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setShowWhen(true);

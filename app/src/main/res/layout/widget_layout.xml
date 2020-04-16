@@ -2,9 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:gravity="center"
+    android:id="@+id/widget_ll_root"
     android:background="@drawable/widget_drawable"
-
     android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="3dp"
+        android:background="@drawable/widget_drawable_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/widget_tv_title"
         android:layout_width="match_parent"
@@ -12,8 +17,8 @@
         android:textAlignment="center"
         android:padding="@dimen/widgetLayoutTextViewPadding"
         android:textSize="@dimen/widgetLayoutTextViewTextSize"
-        android:background="@drawable/widget_drawable_title"
         android:textColor="@color/colorFullBlack"/>
+    </LinearLayout>
 <!--    <TextView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
@@ -21,9 +26,18 @@
 <!--        android:id="@+id/appwidget_text"-->
 <!--        android:textSize="45dp"-->
 <!--        android:text="TEST"/>-->
+    <LinearLayout
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:paddingBottom="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/widget_ll_lv"
+        android:id="@+id/widget_ll_lv">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/widget_listview"/>
+    </LinearLayout>
 
 </LinearLayout>

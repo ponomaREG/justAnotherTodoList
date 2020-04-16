@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -132,7 +133,7 @@ public class mainTasks extends AppCompatActivity {
             }
 
             //SET NOTIFY
-            long time_set = AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(),14);
+            long time_set = AnotherHelpers.getTimeInMillisOfDayByMillis(calendar.getTimeInMillis(),8);
             if(System.currentTimeMillis()<time_set){
             Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
             intent_for_notify.putExtra(this.getResources().getString(R.string.intentExtraId),idDays);
@@ -263,7 +264,7 @@ public class mainTasks extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     intent_for_notify.putExtra(getResources().getString(R.string.intentExtraId), (int) v.getTag());
-                    intent_for_notify.putExtra(getResources().getString(R.string.intentExtraTimeForNotify), AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(), Integer.parseInt(getResources().getString(R.string.timeForNotify))));
+                    intent_for_notify.putExtra(getResources().getString(R.string.intentExtraTimeForNotify), AnotherHelpers.getTimeInMillisOfYesterdayDayByMillisDay(calendar.getTimeInMillis(), Integer.parseInt(getResources().getString(R.string.timeForNotifyYD))));
                     intent_for_notify.putExtra(getResources().getString(R.string.intentExtraAction),
                             getResources().getString(R.string.intentExtraActionDelete));
                     startService(intent_for_notify);

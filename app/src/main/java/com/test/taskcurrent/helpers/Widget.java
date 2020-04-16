@@ -6,8 +6,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.test.taskcurrent.R;
 import com.test.taskcurrent.Services.ServiceRemoteForFactoryViews;
@@ -24,8 +29,12 @@ public class Widget extends AppWidgetProvider {
                                 int appWidgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         String widgetText = sp.getString(context.getResources().getString(R.string.widget_text)+appWidgetId,null);
-        if(widgetText == null) return;
+        int color_background = sp.getInt(context.getResources().getString(R.string.widget_colorID_background) + appWidgetId, -1);
+        int color_text = sp.getInt(context.getResources().getString(R.string.widget_colorID_text) + appWidgetId, -1);
+        if((widgetText == null)||(color_background == -1)||(color_text == -1)) return;
         views.setTextViewText(R.id.widget_tv_title,widgetText);
+        Log.d("COLOR_TEXT",color_text+"");
+        updateColors(context,views,new int[]{R.id.widget_tv_title},color_text,new int[]{R.id.widget_tv_title,R.id.widget_listview},color_background);
         setList(views,context,appWidgetId);
         setClickList(views,context);
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -49,7 +58,22 @@ public class Widget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    static void setList(RemoteViews rv,Context context,int widgetID){
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+        SharedPreferences sp = context.getSharedPreferences(context.getResources().getString(R.string.widget_pref),Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        for(int id:appWidgetIds){
+            Log.d("ID",id+"");
+            ed.remove(context.getResources().getString(R.string.widget_dayID) + id);
+            ed.remove(context.getResources().getString(R.string.widget_text) + id);
+            ed.remove(context.getResources().getString(R.string.widget_colorID_text)+ id);
+            ed.remove(context.getResources().getString(R.string.widget_colorID_background) + id);
+        }
+        ed.apply();
+    }
+
+    static void setList(RemoteViews rv, Context context, int widgetID){
         Intent adapter = new Intent(context, ServiceRemoteForFactoryViews.class);
         adapter.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetID);
         Uri data = Uri.parse(adapter.toUri(Intent.URI_INTENT_SCHEME));
@@ -82,6 +106,16 @@ public class Widget extends AppWidgetProvider {
 //                TaskStackBuilder.create(context).addNextIntent(new Intent(context,mainTasks.class)).addNextIntent(intent_for_tasks).startActivities();
         }
         }
+    }
+
+     static void updateColors(Context context, RemoteViews views, int[] ids_textViews, int id_color_text,int[] ids_viewsForBackground, int id_color_background){
+        for(int id_v:ids_viewsForBackground) {
+//            Drawable dr = AppCompatResources.getDrawable(context,R.drawable.widget_drawable_title);
+//            Drawable dr_wr = DrawableCompat.wrap(dr);
+//            DrawableCompat.setTint(dr_wr,context.getResources().getColor(id_color_background));
+            views.setInt(id_v,"setBackgroundColor",context.getResources().getColor(id_color_background));
+        }
+         for(int id_tv:ids_textViews) views.setTextColor(id_tv,context.getResources().getColor(id_color_text));
     }
 }
 

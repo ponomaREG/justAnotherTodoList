@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".helpers.Config">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выберите день"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"/>
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="@dimen/configSpinnerHeight"
@@ -15,10 +22,194 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:id="@+id/tvConfig"-->
 <!--        />t-->
-    <Button
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Выберите цвет фона"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"/>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:onClick="onClickOnCellForBackgroundColor"
+                android:id="@+id/configColorBackgroundWhite"
+                android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+                android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+                android:background="@drawable/config_color_cell"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/configColorBackgroundWhite"
+                tools:ignore="ContentDescription" />
+            </LinearLayout>
+            <LinearLayout
+                android:onClick="onClickOnCellForBackgroundColor"
+                android:id="@+id/configColorBackgroundLightGray"
+                android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+                android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+                android:background="@drawable/config_color_cell"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/configColorBackgroundLightGray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+            <LinearLayout
+                android:onClick="onClickOnCellForBackgroundColor"
+                android:id="@+id/configColorBackgroundGray"
+                android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+                android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+                android:background="@drawable/config_color_cell"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/configColorBackgroundGray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+            <LinearLayout
+                android:onClick="onClickOnCellForBackgroundColor"
+                android:id="@+id/configColorBackgroundDarkGray"
+                android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+                android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+                android:background="@drawable/config_color_cell"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/configColorBackgroundDarkGray"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+            <LinearLayout
+                android:onClick="onClickOnCellForBackgroundColor"
+                android:id="@+id/configColorBackgroundBlack"
+                android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+                android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+                android:background="@drawable/config_color_cell"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/configColorBackgroundBlack"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Выберите цвет текста"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"/>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:visibility="invisible"
+            android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+            android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+            android:background="@drawable/config_color_cell"
+            android:padding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/configColorBackgroundWhite"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onClickOnCellForTextColor"
+            android:id="@+id/configColorTextWhite"
+            android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+            android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+            android:background="@drawable/config_color_cell"
+            android:padding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/configColorTextWhite"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="invisible"
+            android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+            android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+            android:background="@drawable/config_color_cell"
+            android:padding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/configColorBackgroundLightGray"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onClickOnCellForTextColor"
+            android:id="@+id/configColorTextBlack"
+            android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+            android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+            android:background="@drawable/config_color_cell"
+            android:padding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/configColorTextBlack"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="invisible"
+            android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
+            android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
+            android:background="@drawable/config_color_cell"
+            android:padding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/configColorBackgroundLightGray"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="@dimen/configButtonWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/configButtonMarginTop"
         android:text="@string/config_button_commit"
         android:textSize="@dimen/configButtonCommitTextSize"
+        android:background="@drawable/dialog_button_style"
         android:id="@+id/buttonConfig"/>
 </LinearLayout>

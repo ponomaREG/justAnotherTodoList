@@ -28,6 +28,11 @@
 
     <dimen name="configButtonCommitTextSize">24sp</dimen>
     <dimen name="configSpinnerHeight">60dp</dimen>
+    <dimen name="configButtonWidth">250dp</dimen>
+    <dimen name="configActionbarTitleTextSize">8sp</dimen>
+    <dimen name="configButtonMarginTop">36dp</dimen>
+    <dimen name="configCellColorBackgroundMarginSide">10dp</dimen>
+    <dimen name="configCellColorTextMarginSide">10dp</dimen>
 
     <dimen name="widgetMinWidth">180dp</dimen>
     <dimen name="widgetMinHeight">110dp</dimen>

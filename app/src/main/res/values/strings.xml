@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">taskCurrent</string>
+    <string name="app_name">Just another todo list</string>
 
     <string name="mainLLContentDescription">TODO://IMAGE ICON</string>
 
@@ -9,6 +9,7 @@
     <string name="toastError_no_days">У Вас нет созданных дней для отображения(</string>
     <string name="toastError_no_tasks">У Вас нет заданий</string>
     <string name="toastError_must_choose_day">Выберите день</string>
+    <string name="toastError_must_choose_color">Выберите цвета</string>
 
 
     <string name="tagMainCellDate">date</string>
@@ -47,14 +48,15 @@
     <string name="intentExtraActionAdd">add</string>
     <string name="intentExtraActionDelete">delete</string>
 
+
     <string name="dialog_title_add_new_task">Введите задание</string>
     <string name="dialog_button_make">Создать</string>
     <string name="dialog_button_edit">Редактировать</string>
     <string name="dialog_edit_editText_hint">Сделать домашнее задание</string>
     <string name="dialog_button_cancel">Отмена</string>
 
-    <string name="notify_morning_title">Напоминание</string>
-    <string name="notify_morning_content">Проверьте задачи, которые Вы должны сделать сегодня!</string>
+    <string name="notify_morning_title">Привет</string>
+    <string name="notify_morning_content">Просто напоминаю о твоих задачах</string>
     <string name="notify_channel_desc">Утренние уведомления</string>
     <string name="notify_channel_title">Уведомления задачника</string>
     <string name="notify_channel_id">NotifyChannel</string>
@@ -64,12 +66,15 @@
     <string name="widget_pref">widget_pref</string>
     <string name="widget_text">widget_text_"</string>
     <string name="widget_dayID">widget_dayID_</string>
+    <string name="widget_colorID_text">widget_color_text_</string>
+    <string name="widget_colorID_background">widget_color_background</string>
 
     <string name="config_spinner_title">Выберите день</string>
     <string name="config_button_commit">Разместить</string>
+    <string name="config_actionbar_title">Создание виджета</string>
 
     <string name="dateFormat">dd.MM.yyyy</string>
-    <string name="timeForNotify">8</string>
+    <string name="timeForNotifyYD">23</string>
 
 <!--    <string name="appwidget_text">EXAMPLE</string>-->
 <!--    <string name="add_widget">Add widget</string>-->

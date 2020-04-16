@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Paint;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import android.widget.Toast;
@@ -73,10 +74,10 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
         if(pos_of_done_tasks.contains(position)) rv.setInt(R.id.widget_list_item_tv,"setPaintFlags",
                 Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
         else rv.setInt(R.id.widget_list_item_tv,"setPaintFlags",Paint.ANTI_ALIAS_FLAG);
-        if(pos_of_star_tasks.contains(position)) rv.setInt(R.id.widget_list_item_tv,"setBackgroundResource",
-                R.drawable.widget_drawable_star);
-        else rv.setInt(R.id.widget_list_item_tv,"setBackgroundResource",
-                R.drawable.widget_list_item);
+        if(pos_of_star_tasks.contains(position)) rv.setInt(R.id.widget_star,"setVisibility",
+                View.VISIBLE);
+        else rv.setInt(R.id.widget_star,"setVisibility",
+                View.INVISIBLE);
         Intent clickIntent = new Intent();
         clickIntent.putExtra(context.getResources().getString(R.string.widget_list_itemposition),position);
         clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetID);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 
 import java.text.SimpleDateFormat;
@@ -23,7 +24,17 @@ public class AnotherHelpers {
 
 
     public static long getTimeInMillisOfYesterdayDayByMillisDay(long day_time_unix,int hour){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(day_time_unix-1000*60*60*(24-hour));
+        //Log.d("TIME",String.format("%d.%d.%d %d:%d",calendar.get(calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR),calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE)));
         return day_time_unix-1000*60*60*(24-hour);
+    }
+
+    public static long getTimeInMillisOfDayByMillis(long day_time_unix,int hour){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(day_time_unix-1000*60*60*(24-hour));
+        //Log.d("TIME",String.format("%d.%d.%d %d:%d",calendar.get(calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR),calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE)));
+        return day_time_unix+1000*60*60*hour;
     }
 
     @SuppressLint("SimpleDateFormat")
