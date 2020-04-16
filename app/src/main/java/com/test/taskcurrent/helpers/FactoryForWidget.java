@@ -22,6 +22,8 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
     private int widgetID;
     private DBHelper dbhelper;
     private SharedPreferences sp;
+    private int color_text_id,color_background_id;
+    private int star_image_id;
 
     public FactoryForWidget(Context context, Intent intent){
         this.context = context;
@@ -32,9 +34,12 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public void onCreate() {
         tasks = new ArrayList<>();
-
         dbhelper = new DBHelper(context);
         sp = context.getSharedPreferences(context.getResources().getString(R.string.widget_pref),Context.MODE_PRIVATE);
+        color_text_id = sp.getInt(context.getResources().getString(R.string.widget_colorID_text) + widgetID,-1);
+        color_background_id = sp.getInt(context.getResources().getString(R.string.widget_colorID_background) + widgetID,-1);
+        if(color_background_id == R.color.configColorBackgroundBlack) star_image_id = R.drawable.star_widget_white;
+        else star_image_id = R.drawable.star_widget_black;
     }
 
     @Override
@@ -71,12 +76,15 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_list_item);
         rv.setTextViewText(R.id.widget_list_item_tv,tasks.get(position));
+        Widget.updateColors(context,rv,new int[]{R.id.widget_list_item_tv},color_text_id,new int[]{R.id.widget_ll_lv_item},color_background_id);
         if(pos_of_done_tasks.contains(position)) rv.setInt(R.id.widget_list_item_tv,"setPaintFlags",
                 Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
         else rv.setInt(R.id.widget_list_item_tv,"setPaintFlags",Paint.ANTI_ALIAS_FLAG);
-        if(pos_of_star_tasks.contains(position)) rv.setInt(R.id.widget_star,"setVisibility",
-                View.VISIBLE);
-        else rv.setInt(R.id.widget_star,"setVisibility",
+        if(pos_of_star_tasks.contains(position)) {
+            rv.setInt(R.id.widget_star, "setVisibility",
+                    View.VISIBLE);
+            rv.setImageViewResource(R.id.widget_star,star_image_id);
+        } else rv.setInt(R.id.widget_star,"setVisibility",
                 View.INVISIBLE);
         Intent clickIntent = new Intent();
         clickIntent.putExtra(context.getResources().getString(R.string.widget_list_itemposition),position);
@@ -84,6 +92,7 @@ public class FactoryForWidget implements RemoteViewsService.RemoteViewsFactory {
         rv.setOnClickFillInIntent(R.id.widget_list_item_tv,clickIntent);
         return rv;
     }
+
 
     @Override
     public RemoteViews getLoadingView() {
