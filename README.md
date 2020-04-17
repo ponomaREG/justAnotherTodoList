@@ -1,4 +1,4 @@
-Just another regular task book with minimal functionality(add,edit,remove).Notifications every morning. User edits color of widget as desired
+Just another regular task book with minimal functionality(add,edit,remove).Can mark a task done or important.Notifications every morning. User edits color of widget as desired
 
 
 ![resized___Screenshot_2020-03-30-17-33-23-442_com example mensatest](https://user-images.githubusercontent.com/42519654/78507141-23f5b780-77a0-11ea-8554-524d0efb69f0.jpg)
