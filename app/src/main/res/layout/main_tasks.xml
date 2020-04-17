@@ -26,9 +26,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/mainLLContentDescription"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        />
-<!--&lt;!&ndash;        android:src="@drawable/icon_add_new_main_task"&ndash;&gt;/>-->
+        android:src="@drawable/icon_add_new_main_task"/>
+
 
 
 
