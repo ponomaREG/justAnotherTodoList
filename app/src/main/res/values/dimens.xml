@@ -28,19 +28,27 @@
 
     <dimen name="configButtonCommitTextSize">24sp</dimen>
     <dimen name="configSpinnerHeight">60dp</dimen>
+    <dimen name="configSmallTitleTextSize">20sp</dimen>
+    <dimen name="configSmallTitleMargintop">10dp</dimen>
     <dimen name="configButtonWidth">250dp</dimen>
     <dimen name="configActionbarTitleTextSize">8sp</dimen>
     <dimen name="configButtonMarginTop">36dp</dimen>
+    <dimen name="configCellLLMarginTop">10dp</dimen>
     <dimen name="configCellColorBackgroundMarginSide">10dp</dimen>
     <dimen name="configCellColorTextMarginSide">10dp</dimen>
+    <dimen name="configCellColorSize">50dp</dimen>
+    <dimen name="configCellColorPadding">3dp</dimen>
 
     <dimen name="widgetMinWidth">180dp</dimen>
     <dimen name="widgetMinHeight">110dp</dimen>
     <dimen name="widgetLayoutTextViewPadding">2dp</dimen>
     <dimen name="widgetLayoutTextViewTextSize">30sp</dimen>
     <dimen name="widgetListViewItemLLPadding">5dp</dimen>
-    <dimen name="widgetListViewItemTextViewPadding">6dp</dimen>\
+    <dimen name="widgetListViewItemTextViewPadding">6dp</dimen>
     <dimen name="widgetListViewItemTextViewTextSize">20sp</dimen>
+    <dimen name="widgetIconStarSizeSide">13dp</dimen>
+    <dimen name="widgetLayoutTitlePadding">3dp</dimen>
+    <dimen name="widgetListViewPaddingSideLRB">3dp</dimen>
 
 
 

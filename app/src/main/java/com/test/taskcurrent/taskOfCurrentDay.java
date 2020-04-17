@@ -152,7 +152,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
         if(!is_edit) {
             try {
                 cv.put(getResources().getString(R.string.databaseColumnIdDay),id_day);
-                long id_task = dbhelper.getWritableDatabase().insertOrThrow(
+                long id_task = dbhelper.insertData(
                         getResources().getString(R.string.databaseTableTasks),
                         null,
                         cv
@@ -163,7 +163,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
             }
         }else {
             try {
-                dbhelper.getWritableDatabase().update(
+                dbhelper.updateData(
                         getResources().getString(R.string.databaseTableTasks),
                         cv,
                         String.format(getResources().getString(R.string.database_condition_update_uni), getResources().getString(R.string.databaseColumnId),task_id_for_edit),
@@ -199,8 +199,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public void setDoneOrUndoneTaskByID(int id_task,boolean is_done){
         ContentValues cv = new ContentValues();
         cv.put(getResources().getString(R.string.databaseColumnIsDone),((is_done) ? 1:0));
-        dbhelper.getWritableDatabase().
-                update(getResources().getString(R.string.databaseTableTasks),
+        dbhelper.updateData(getResources().getString(R.string.databaseTableTasks),
                         cv,
                         String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id_task)),
                         null
@@ -210,8 +209,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     public void setStarOrUnstarTaskByID(int id_task,boolean is_star){
         ContentValues cv = new ContentValues();
         cv.put(getResources().getString(R.string.databaseColumnIsStar),((is_star) ? 1:0));
-        dbhelper.getWritableDatabase().
-                update(getResources().getString(R.string.databaseTableTasks),
+        dbhelper.updateData(getResources().getString(R.string.databaseTableTasks),
                         cv,
                         String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id_task)),
                         null
@@ -313,7 +311,7 @@ public class taskOfCurrentDay extends AppCompatActivity {
     }
 
     private void deleteTaskLineInDatabase(int id){
-        dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableTasks),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
+        dbhelper.deleteData(getResources().getString(R.string.databaseTableTasks),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
     }
 
 

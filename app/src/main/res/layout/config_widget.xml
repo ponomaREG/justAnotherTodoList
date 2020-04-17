@@ -8,9 +8,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выберите день"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
+        android:text="@string/config_choose_day"
+        android:textSize="@dimen/configSmallTitleTextSize"
+        android:layout_marginTop="@dimen/configSmallTitleMargintop"
+        android:textColor="@color/colorFullBlack"
         android:textAlignment="center"/>
     <Spinner
         android:layout_width="match_parent"
@@ -26,12 +27,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Выберите цвет фона"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
+            android:text="@string/config_choose_color_background"
+            android:textSize="@dimen/configSmallTitleTextSize"
+            android:layout_marginTop="@dimen/configSmallTitleMargintop"
+            android:textColor="@color/colorFullBlack"
             android:textAlignment="center"/>
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/configCellLLMarginTop"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -42,12 +44,12 @@
                 android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
                 android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
                 android:background="@drawable/config_color_cell"
-                android:padding="3dp"
+                android:padding="@dimen/configCellColorPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/configCellColorSize"
+                android:layout_height="@dimen/configCellColorSize"
                 android:background="@color/configColorBackgroundWhite"
                 tools:ignore="ContentDescription" />
             </LinearLayout>
@@ -57,12 +59,12 @@
                 android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
                 android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
                 android:background="@drawable/config_color_cell"
-                android:padding="3dp"
+                android:padding="@dimen/configCellColorPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/configCellColorSize"
+                    android:layout_height="@dimen/configCellColorSize"
                     android:background="@color/configColorBackgroundLightGray"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
@@ -72,13 +74,12 @@
                 android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
                 android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
                 android:background="@drawable/config_color_cell"
-                android:padding="3dp"
+                android:padding="@dimen/configCellColorPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/configCellColorSize"
+                    android:layout_height="@dimen/configCellColorSize"
                     android:background="@color/configColorBackgroundGray"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
@@ -88,12 +89,12 @@
                 android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
                 android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
                 android:background="@drawable/config_color_cell"
-                android:padding="3dp"
+                android:padding="@dimen/configCellColorPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/configCellColorSize"
+                    android:layout_height="@dimen/configCellColorSize"
                     android:background="@color/configColorBackgroundDarkGray"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
@@ -103,12 +104,12 @@
                 android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
                 android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
                 android:background="@drawable/config_color_cell"
-                android:padding="3dp"
+                android:padding="@dimen/configCellColorPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/configCellColorSize"
+                    android:layout_height="@dimen/configCellColorSize"
                     android:background="@color/configColorBackgroundBlack"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
@@ -118,12 +119,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выберите цвет текста"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
+        android:text="@string/config_choose_color_text"
+        android:textSize="@dimen/configSmallTitleTextSize"
+        android:layout_marginTop="@dimen/configSmallTitleMargintop"
+        android:textColor="@color/colorFullBlack"
         android:textAlignment="center"/>
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/configCellLLMarginTop"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -133,12 +135,12 @@
             android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
             android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
             android:background="@drawable/config_color_cell"
-            android:padding="3dp"
+            android:padding="@dimen/configCellColorPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/configCellColorSize"
+                android:layout_height="@dimen/configCellColorSize"
                 android:background="@color/configColorBackgroundWhite"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -148,12 +150,12 @@
             android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
             android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
             android:background="@drawable/config_color_cell"
-            android:padding="3dp"
+            android:padding="@dimen/configCellColorPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/configCellColorSize"
+                android:layout_height="@dimen/configCellColorSize"
                 android:background="@color/configColorTextWhite"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -162,12 +164,12 @@
             android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
             android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
             android:background="@drawable/config_color_cell"
-            android:padding="3dp"
+            android:padding="@dimen/configCellColorPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/configCellColorSize"
+                android:layout_height="@dimen/configCellColorSize"
                 android:background="@color/configColorBackgroundLightGray"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -177,12 +179,12 @@
             android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
             android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
             android:background="@drawable/config_color_cell"
-            android:padding="3dp"
+            android:padding="@dimen/configCellColorPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/configCellColorSize"
+                android:layout_height="@dimen/configCellColorSize"
                 android:background="@color/configColorTextBlack"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -191,12 +193,12 @@
             android:layout_marginStart="@dimen/configCellColorBackgroundMarginSide"
             android:layout_marginEnd="@dimen/configCellColorBackgroundMarginSide"
             android:background="@drawable/config_color_cell"
-            android:padding="3dp"
+            android:padding="@dimen/configCellColorPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/configCellColorSize"
+                android:layout_height="@dimen/configCellColorSize"
                 android:background="@color/configColorBackgroundLightGray"
                 tools:ignore="ContentDescription" />
         </LinearLayout>

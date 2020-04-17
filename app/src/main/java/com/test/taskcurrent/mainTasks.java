@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,7 +78,8 @@ public class mainTasks extends AppCompatActivity {
         TextView baseTextView;
         View.OnClickListener ocl = getOclForCellDays();
         View.OnLongClickListener long_ocl = getLongOclForCellDays();
-        Cursor c = getDaysFromDB();
+        Cursor c = dbhelper.getAllLinesFromDB(getResources().getString(R.string.databaseQueryGetAllDataFromTable),
+                getResources().getString(R.string.databaseTableDays));
 
         searching:
         for(int i = 0;i<c.getCount();i++){
@@ -206,7 +206,7 @@ public class mainTasks extends AppCompatActivity {
         ContentValues cv = new ContentValues();
         cv.put(getResources().getString(R.string.databaseColumnDate),date);
         try {
-            dbhelper.getReadableDatabase().insertOrThrow(getResources().getString(R.string.databaseTableDays), null, cv);
+            dbhelper.insertData(getResources().getString(R.string.databaseTableDays), null, cv);
         }catch (SQLiteConstraintException exc){
             Toast.makeText(this,getResources().getString(R.string.toastError_dayExists),Toast.LENGTH_SHORT).show();
         }
@@ -224,17 +224,7 @@ public class mainTasks extends AppCompatActivity {
 
 
 
-    private Cursor getDaysFromDB(){
-        Cursor c = dbhelper.getReadableDatabase().rawQuery(
-                String.format(
-                        getResources().getString(R.string.databaseQueryGetAllDataFromTable),
-                        getResources().getString(R.string.databaseTableDays)
-                ),
-                null
-        );
-        c.moveToFirst();
-        return c;
-    }
+
 
 
     private ActionMode.Callback getActionMode() {
@@ -283,7 +273,7 @@ public class mainTasks extends AppCompatActivity {
     }
 
     private void deleteDayLineInDatabase(int id){
-        dbhelper.getReadableDatabase().delete(getResources().getString(R.string.databaseTableDays),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
+        dbhelper.deleteData(getResources().getString(R.string.databaseTableDays),String.format(getResources().getString(R.string.database_condition_delete),String.valueOf(id)),null);
     }
 
 }

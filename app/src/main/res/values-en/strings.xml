@@ -64,10 +64,16 @@
     <string name="widget_pref">widget_pref</string>
     <string name="widget_text">widget_text_"</string>
     <string name="widget_dayID">widget_dayID_</string>
+    <string name="widget_colorID_text">widget_color_text_</string>
+    <string name="widget_colorID_background">widget_color_background</string>
+    <string name="widget_star_todo">star_task</string>
 
     <string name="config_spinner_title">Choose a day</string>
     <string name="config_button_commit">Post</string>
-    <string name="config_actionbar_title">Choose a day</string>
+    <string name="config_actionbar_title">Create a widget</string>
+    <string name="config_choose_day">Choose a day</string>
+    <string name="config_choose_color_background">Choose a background color</string>
+    <string name="config_choose_color_text">Choose a text color</string>
 
     <string name="dateFormat">dd.MM.yyyy</string>
     <string name="timeForNotifyYD">23</string>

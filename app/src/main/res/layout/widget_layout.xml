@@ -5,7 +5,7 @@
     android:background="@drawable/widget_drawable"
     android:layout_height="match_parent">
     <LinearLayout
-        android:padding="3dp"
+        android:padding="@dimen/widgetLayoutTitlePadding"
         android:background="@drawable/widget_drawable_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,9 +19,9 @@
         android:textColor="@color/colorFullBlack"/>
     </LinearLayout>
     <LinearLayout
-        android:paddingStart="3dp"
-        android:paddingEnd="3dp"
-        android:paddingBottom="3dp"
+        android:paddingStart="@dimen/widgetListViewPaddingSideLRB"
+        android:paddingEnd="@dimen/widgetListViewPaddingSideLRB"
+        android:paddingBottom="@dimen/widgetListViewPaddingSideLRB"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/widget_ll_lv"

@@ -1,5 +1,6 @@
 package com.test.taskcurrent.helpers;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -171,8 +172,44 @@ public class DBHelper extends SQLiteOpenHelper {
 //        return id;
 //    }
 
+    public Cursor getAllLinesFromDB(String query, String table){
+        Cursor c = this.getReadableDatabase().rawQuery(
+                String.format(
+                        query,
+                        table
+                ),
+                null
+        );
+        c.moveToFirst();
+        return c;
+    }
 
-    Cursor getDatesWithOrder(){ //"select * from days order by date desc;"
+    public long insertData(String table, String nullColumnHack, ContentValues cv){
+        SQLiteDatabase s = this.getWritableDatabase();
+        long ret_id = s.insertOrThrow(table,nullColumnHack,cv);
+        s.close();
+        return ret_id;
+    }
+
+    public void updateData(String table, ContentValues cv, String condition, String[] whereArgs){
+        SQLiteDatabase s = this.getWritableDatabase();
+        s.update(
+                table,
+                cv,
+                condition,
+                whereArgs
+        );
+        s.close();
+    }
+
+    public void deleteData(String table, String condition, String[] args){
+        SQLiteDatabase s = this.getWritableDatabase();
+        s.delete(table,condition,args);
+        s.close();
+    }
+
+
+    Cursor getDatesWithOrder(){
         Cursor c = this.getReadableDatabase().rawQuery(
                 String.format(
                         context.getResources().getString(R.string.databaseQueryGetAllDataFromTableWithOrderDesc),
@@ -213,6 +250,7 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         return check;
     }
+
 
 
 }
