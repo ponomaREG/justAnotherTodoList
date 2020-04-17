@@ -11,24 +11,20 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.ActionMode;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.test.taskcurrent.helpers.Converters;
 import com.test.taskcurrent.helpers.DBHelper;
 import com.test.taskcurrent.helpers.Task;
 import com.test.taskcurrent.helpers.ViewHolderRV;
@@ -118,33 +114,25 @@ public class taskOfCurrentDay extends AppCompatActivity {
         View view = this.getLayoutInflater().inflate(R.layout.dialog_edittextview,null);
         final EditText new_task = view.findViewById(R.id.dialog_newTask);
         if(isEdit) new_task.setText(text_begin);
+
+        ab.setCustomTitle(this.getLayoutInflater().inflate(R.layout.dialog_custom_title,null))
+                .setView(view);
+        AlertDialog ad_cr = ab.create();
         String positive_button_title;
         if(isEdit) positive_button_title  = getResources().getString(R.string.dialog_button_edit);
         else positive_button_title  = getResources().getString(R.string.dialog_button_make);
-        ab.setCustomTitle(this.getLayoutInflater().inflate(R.layout.dialog_custom_title,null))
-                .setView(view)
-                .setPositiveButton(positive_button_title, (dialog, which) -> {
-                    addOrEditIntoDatabaseNewTask(new_task.getText().toString(),id,isEdit,id_task);
-                    dialog.dismiss();
-                })
-                .setNegativeButton(getResources().getString(R.string.dialog_button_cancel),((dialog, which) -> dialog.dismiss()));
-        AlertDialog ad_cr = ab.create();
-        ad_cr.setOnShowListener(dialog -> {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,100.0f);
-            lp.gravity= Gravity.CENTER;
-            Button positiveButton = ad_cr.getButton(DialogInterface.BUTTON_POSITIVE);
-            Button negativeButton = ad_cr.getButton(DialogInterface.BUTTON_NEGATIVE);
-            int pixelsFromDp = Converters.getPixelFromDP(2.0f,this);
-            lp.setMargins(pixelsFromDp,pixelsFromDp,pixelsFromDp,pixelsFromDp);
-            positiveButton.setLayoutParams(lp);
-            positiveButton.setBackground(getResources().getDrawable(R.drawable.dialog_button_style));
-            positiveButton.setTextColor(getResources().getColor(R.color.colorFullBlack));
-            negativeButton.setLayoutParams(lp);
-            negativeButton.setBackground(getResources().getDrawable(R.drawable.dialog_button_style));
-            negativeButton.setTextColor(getResources().getColor(R.color.colorFullBlack));
+        Button positive_button = view.findViewById(R.id.dialog_alert_edit_or_create);
+        positive_button.setText(positive_button_title);
+        positive_button.setOnClickListener((v) ->{
+            addOrEditIntoDatabaseNewTask(new_task.getText().toString(),id,isEdit,id_task);
+            ad_cr.dismiss();
         });
+        Button negative_button = view.findViewById(R.id.dialog_alert_cancel);
+        negative_button.setText(getResources().getString(R.string.dialog_button_cancel));
+        negative_button.setOnClickListener((v)-> ad_cr.dismiss());
         ad_cr.show();
     }
+
 
     private void addOrEditIntoDatabaseNewTask(String task, int id_day, boolean is_edit, int task_id_for_edit){
         ContentValues cv = new ContentValues();

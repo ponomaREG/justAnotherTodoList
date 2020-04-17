@@ -72,7 +72,7 @@ public class ForegroundServiceForNotify extends Service {
             NotificationChannel channel = new NotificationChannel(
                     context.getResources().getString(R.string.notify_channel_id),
                     context.getResources().getString(R.string.notify_channel_title),
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription(context.getResources().getString(R.string.notify_channel_desc));
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);

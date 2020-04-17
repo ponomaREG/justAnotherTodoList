@@ -50,6 +50,11 @@
     <dimen name="widgetLayoutTitlePadding">3dp</dimen>
     <dimen name="widgetListViewPaddingSideLRB">3dp</dimen>
 
+    <dimen name="dialogButtonMargin">3dp</dimen>
+    <dimen name="dialogButtonTextSize">18sp</dimen>
+    <dimen name="dialogLLButtonMarginTop">15dp</dimen>
+    <dimen name="dialogLLButtonMarginBottom">10dp</dimen>
+
 
 
     <!--
