@@ -134,7 +134,7 @@ public class mainTasks extends AppCompatActivity {
 
             //SET NOTIFY
             long time_set = AnotherHelpers.getTimeInMillisOfDayByMillis(calendar.getTimeInMillis(),8);
-            if(System.currentTimeMillis()>time_set){
+            if(System.currentTimeMillis()<time_set){
             Intent intent_for_notify = new Intent(mainTasks.this,ForegroundServiceForNotify.class);
             intent_for_notify.putExtra(this.getResources().getString(R.string.intentExtraId),idDays);
             intent_for_notify.putExtra(this.getResources().getString(R.string.intentExtraTimeForNotify), time_set);

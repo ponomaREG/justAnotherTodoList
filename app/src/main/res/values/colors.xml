@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5E5E5E</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#9A9A9A</color>
-    <color name="colorMainBackground">#4E4C4C</color>
+    <color name="colorPrimary">#4E4D4D</color> //Actionbar
+    <color name="colorPrimaryDark">#292929</color> //Toolbar
+    <color name="colorAccent">#333232</color> //Calendar
+
+    <color name="colorMainBackground">#DCD7D7</color>
 
     <color name="colorLightGray">#9A9A9A</color>
     <color name="colorDarkGray">#878787</color>
@@ -11,10 +12,16 @@
     <color name="colorFullWhite">#FFFFFF</color>
     <color name="colorStarYellow">#DFCD34</color>
 
-    <color name="mainSolidTask">#FFFFFF</color>
-    <color name="solidTask">#FFFFFF</color>
+    <color name="mainSolidTask">#BCB9B9</color>
+    <color name="mainTaskStroke">#000000</color>
+    <color name="mainTaskSolidPressed">#9A9A9A</color>
+
     <color name="colorDarkGreen">#006712</color>
     <color name="colorGreen">#2C9E27</color>
+
+    <color name="solidTask">#FFFFFF</color>
+    <color name="taskStroke">#000000</color>
+    <color name="taskSolidPressed">#9A9A9A</color>
 
     <color name="configColorBackgroundWhite">#FFFFFF</color>
     <color name="configColorBackgroundLightGray">#D3D3D3</color>
