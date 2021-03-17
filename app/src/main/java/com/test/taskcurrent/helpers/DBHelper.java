@@ -214,7 +214,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 String.format(
                         context.getResources().getString(R.string.databaseQueryGetAllDataFromTableWithOrderDesc),
                         context.getResources().getString(R.string.databaseTableDays),
-                        context.getResources().getString(R.string.databaseColumnDate)
+                        context.getResources().getString(R.string.databaseColumnId)
                                 )
                 ,null);
         c.moveToFirst();
